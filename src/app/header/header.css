@@ -186,6 +186,16 @@ body {
   margin-right: 2vw;
   margin-left: 2vw;
 }
+
+.login{
+  text-decoration: none;
+  color: #C0C0C0;
+  transition: color 0.2s ease;
+}
+.login:hover{
+  color: #FDEBB7;
+  text-shadow: 0 0 6px #fdebb799;
+}
 /*------------   imagen portada   ------------*/
 .img_portada img{
   width: 100%;
