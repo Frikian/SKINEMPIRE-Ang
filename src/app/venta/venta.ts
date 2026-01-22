@@ -11,4 +11,9 @@ import {RouterLink} from '@angular/router';
 })
 export class Venta {
 
+  afegirCarrito(nom: string, preu: string) {
+
+
+
+  }
 }
