@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-hdtw',
-  imports: [],
+  imports: [
+    RouterLink
+  ],
   templateUrl: './hdtw.html',
   styleUrl: './hdtw.css',
 })
