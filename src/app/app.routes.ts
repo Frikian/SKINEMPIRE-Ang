@@ -18,7 +18,7 @@ export const routes: Routes = [
   {path: 'contacto', component: Contacto},
   {path: 'hdtw', component: Hdtw},
   {path: 'index', component: Index},
-  {path: 'ligin', component: Login},
+  {path: 'login', component: Login},
   {path: 'politica-de-reembolso', component: PoliticaDeReembolso},
   {path: 'preguntas-frecuentes', component: PreguntasFrecuentes},
   {path: 'register', component: Register},
