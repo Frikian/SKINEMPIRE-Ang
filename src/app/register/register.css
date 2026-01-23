@@ -11,13 +11,16 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   min-height: 100vh;
+  margin: 0;
+  padding-top: 0;
+  transform: none;
 }
-
 
 /* título */
 h1 {
-  margin-top: 4rem;
+  margin-top: 2rem;
   margin-bottom: 3.5rem;
   color: #FDEBB7;
   text-shadow: 0 0 5px #804410;
@@ -27,12 +30,10 @@ h1 {
 }
 
 .formulari-sencer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  /* la pagina se veia pequeña, la hice mas grande con scaling */
+  transform: scale(0.9);
+  transform-origin: center;
 }
-
 
 /* formulari */
 .signup-form {
@@ -42,6 +43,7 @@ h1 {
   box-shadow: 0 0 15px #804410;
   width: 340px;
   margin-bottom: 2.5rem;
+  margin-left: 39%;
 }
 
 form {
@@ -346,8 +348,4 @@ input[type="button"]:hover {
 .bi bi-arrows-fullscreen svg:hover{
   transform: scale(1.2);
   filter: brightness(1.2);
-}
-
-svg {
-  width: 1.5vw;
 }

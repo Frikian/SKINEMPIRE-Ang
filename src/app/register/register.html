@@ -1,14 +1,14 @@
 <div class="formulari-sencer">
   <h1>Registre el teu compte</h1>
   <div class="signup-form">
-    <form class="registerformsectioninput" (ngSubmit)="onRegister()" #registerForm="ngForm" method="post" action="/index.html">
+    <form class="registerformsectioninput" method="post" action="/index.html">
       <label for="usuari">Usuari</label>
-      <input class="registerformsectioninput" [(ngModel)]="user.usuari" type="text" name="usuari" id="usuari" placeholder="Guaperes_777" required>
+      <input class="registerformsectioninput" type="text" name="usuari" id="usuari" placeholder="Guaperes_777" required>
 
       <label type="email">Correu</label>
-      <input class="registerformsectioninput" [(ngModel)]="user.correu" type="email" name="email" id="email" placeholder="xxx@gmail.com" required>
+      <input class="registerformsectioninput" type="email" name="email" id="email" placeholder="xxx@gmail.com" required>
       <label for="pass">Contrasenya</label>
-      <input class="registerformsectioninput" [(ngModel)]="user.contrasenya" type="password" name="pass" id="pass" placeholder="Minim 8 caracters" required>
+      <input class="registerformsectioninput" type="password" name="pass" id="pass" placeholder="Minim 8 caracters" required>
 
       <label for="pass">Repetir contrasenya</label>
       <input type="password" name="pass" id="pass" placeholder="Minim 8 caracters" required>
@@ -19,10 +19,11 @@
   <footer>
     <h3>
       Ja tens compte?
-      <a routerLink="/login">
+      <a href="login.html">
         <input type="button" value="Inicia sessió aqui">
       </a>
     </h3>
+    <p><a href="register"></a></p>
 
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-fullscreen" viewBox="0 0 16 16">
       <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707m0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707m-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707"/>
