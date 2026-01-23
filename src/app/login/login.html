@@ -1,12 +1,12 @@
 <div class="login-wrapper">
   <h1>Inici de sessió</h1>
   <div class="signup-form">
-  <form method="post" action="/index.html">
+  <form (ngSubmit)="onLogin()" #loginForm="ngForm" method="post" action="/index.html">
     <label for="usuari">Usuari</label>
-    <input type="text" name="usuari" id="usuari" placeholder="Guaperes_777" required>
+    <input [(ngModel)]="loginData.usuari" type="text" name="usuari" id="usuari" placeholder="Guaperes_777" required>
 
     <label for="pass">Contrasenya</label>
-    <input type="password" name="pass" id="pass" placeholder="Minim 8 caracters" required>
+    <input [(ngModel)]="loginData.contrasenya" type="password" name="pass" id="pass" placeholder="Minim 8 caracters" required>
     <br>
     <br>
     <input type="submit" value="Inicia sessió" name="login" >

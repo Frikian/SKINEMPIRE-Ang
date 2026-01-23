@@ -1,14 +1,14 @@
 <div class="formulari-sencer">
   <h1>Registre el teu compte</h1>
   <div class="signup-form">
-    <form method="post" action="/index.html">
+    <form class="registerformsectioninput" (ngSubmit)="onRegister()" #registerForm="ngForm" method="post" action="/index.html">
       <label for="usuari">Usuari</label>
-      <input type="text" name="usuari" id="usuari" placeholder="Guaperes_777" required>
+      <input class="registerformsectioninput" [(ngModel)]="user.usuari" type="text" name="usuari" id="usuari" placeholder="Guaperes_777" required>
 
       <label type="email">Correu</label>
-      <input type="email" name="email" id="email" placeholder="xxx@gmail.com" required>
+      <input class="registerformsectioninput" [(ngModel)]="user.correu" type="email" name="email" id="email" placeholder="xxx@gmail.com" required>
       <label for="pass">Contrasenya</label>
-      <input type="password" name="pass" id="pass" placeholder="Minim 8 caracters" required>
+      <input class="registerformsectioninput" [(ngModel)]="user.contrasenya" type="password" name="pass" id="pass" placeholder="Minim 8 caracters" required>
 
       <label for="pass">Repetir contrasenya</label>
       <input type="password" name="pass" id="pass" placeholder="Minim 8 caracters" required>
