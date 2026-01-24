@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {RouterLink} from "@angular/router";
+import {Usuaris} from '../serveis/usuaris';
 
 @Component({
   selector: 'app-header',
@@ -11,4 +12,5 @@ import {RouterLink} from "@angular/router";
 })
 export class Header {
 
+  protected readonly Usuaris = Usuaris;
 }
