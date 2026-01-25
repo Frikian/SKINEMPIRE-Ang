@@ -1,32 +1,46 @@
-
 <header>
   <h1>SKINEMPIRE</h1>
-  <p class="sub">Compra i venda de les teves skins de CSGO</p>
+  <p class="sub">Compra tus skins de CSGO</p>
 </header>
 
 <main class="carrito">
   <h2>Tu carrito</h2>
 
-  <div class="item">
-    <div class="info">
-      <h3>AWP | Asiimov</h3>
-      <p class="meta">Field-Tested • $45.00</p>
-    </div>
-    <img src="../assets/awp_asiimov.png" alt="AWP Asiimov">
+  <div *ngIf="getProductosActivos() === 0" class="carrito-vacio">
+    <p>No hay productos en tu carrito</p>
+    <a routerLink="/tienda">
+      <button class="btn">Ir a la tienda</button>
+    </a>
   </div>
 
-  <div class="item">
-    <div class="info">
-      <h3>AK-47 | Redline</h3>
-      <p class="meta">Minimal Wear • $12.50</p>
-    </div>
-    <img src="../assets/ak_redline.png" alt="AK-47 Redline">
-  </div>
+  <div *ngIf="getProductosActivos() > 0">
+    <div *ngFor="let producto of getProductosEnCarrito()" class="item">
+      <div class="info">
+        <h3>{{ producto.nombre }}</h3>
+        <p class="meta">
+          {{ producto.estado }} •
+          <span class="rareza" [ngClass]="producto.rarezaClass">{{ producto.rareza }}</span> •
+          {{ producto.precio.toFixed(2) }}€
+        </p>
 
-  <div class="resumen">
-    <p>Subtotal: <span>$57.50</span></p>
-    <p>Tarifa (5%): <span>$2.87</span></p>
-    <p class="total">Total: <span>$60.37</span></p>
-    <button class="btn2">Procedir amb el pagament</button>
+        <div class="cantidad-control">
+          <button class="btn-cantidad" (click)="restarUnidad(producto.id)">-</button>
+          <span class="cantidad-numero">{{ getCantidad(producto.id) }}</span>
+          <button class="btn-cantidad" (click)="sumarUnidad(producto.id)">+</button>
+          <button class="btn-eliminar-producto" (click)="eliminarProducto(producto.id)">
+            Eliminar
+          </button>
+        </div>
+      </div>
+      <img src="../assets/pruebaimg.png" [alt]="producto.nombre">
+    </div>
+
+    <div class="resumen">
+      <p>Productos: <span>{{ getProductosActivos() }}</span></p>
+      <p>Subtotal: <span>{{ getSubtotal().toFixed(2) }}€</span></p>
+      <p>Tarifa (5%): <span>{{ getTarifa().toFixed(2) }}€</span></p>
+      <p class="total">Total: <span>{{ getTotalFinal().toFixed(2) }}€</span></p>
+      <button class="btn2">Procedir amb el pagament</button>
+    </div>
   </div>
 </main>
