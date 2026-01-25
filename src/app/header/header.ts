@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {RouterLink} from "@angular/router";
+import {Usuaris} from '../serveis/usuaris';
 import {interval, Subscription} from 'rxjs';
 
 
@@ -26,4 +27,5 @@ export class Header implements OnInit{
     this.sub.unsubscribe();
   }
 
+  protected readonly Usuaris = Usuaris;
 }

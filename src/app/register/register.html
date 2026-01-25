@@ -1,7 +1,7 @@
 <div class="formulari-sencer">
   <h1>Registre el teu compte</h1>
   <div class="signup-form">
-    <form class="registerformsectioninput" method="post" action="/index.html">
+    <form (submit)="enviarLogin(); $event.preventDefault()">
       <label for="usuari">Usuari</label>
       <input class="registerformsectioninput" type="text" name="usuari" id="usuari" placeholder="Guaperes_777" required>
 
@@ -13,13 +13,14 @@
       <label for="pass">Repetir contrasenya</label>
       <input type="password" name="pass" id="pass" placeholder="Minim 8 caracters" required>
 
-      <input type="submit">
+      <input  type="submit">
+      {{mensaje}}
     </form>
   </div>
   <footer>
     <h3>
       Ja tens compte?
-      <a href="login.html">
+      <a routerLink="/login">
         <input type="button" value="Inicia sessió aqui">
       </a>
     </h3>
