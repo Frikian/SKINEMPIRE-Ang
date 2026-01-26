@@ -22,7 +22,7 @@ export class Register {
     const passwordGuardada = localStorage.getItem(nombre);
 
     if(!passwordGuardada){
-      alert("contrasenya incorrecta")
+      alert("Registrat correctament :)")
     }
     if (!nombre || !password) {
       this.mensaje = 'Usuario y contraseña son obligatorios';
