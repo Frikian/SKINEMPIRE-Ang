@@ -14,6 +14,89 @@
   </div>
 </section>
 
+<!-- Sección de Filtros -->
+<section class="filtros-section">
+  <div class="filtros-container">
+    <h3>Filtrar Productos</h3>
+
+    <div class="filtros-grid">
+      <!-- Búsqueda por nombre -->
+      <div class="filtro-item">
+        <label for="busqueda">Buscar por nombre:</label>
+        <input
+          type="text"
+          id="busqueda"
+          class="form-control"
+          [(ngModel)]="busqueda"
+          (input)="aplicarFiltros()"
+          placeholder="Ej: AWP, Dragon Lore...">
+      </div>
+
+      <!-- Filtro por rareza -->
+      <div class="filtro-item">
+        <label for="rareza">Rareza:</label>
+        <select
+          id="rareza"
+          class="form-select"
+          [(ngModel)]="rarezaSeleccionada"
+          (change)="aplicarFiltros()">
+          <option value="">Todas las rarezas</option>
+          <option *ngFor="let rareza of rarezas" [value]="rareza">{{ rareza }}</option>
+        </select>
+      </div>
+
+      <!-- Filtro por estado -->
+      <div class="filtro-item">
+        <label for="estado">Estado:</label>
+        <select
+          id="estado"
+          class="form-select"
+          [(ngModel)]="estadoSeleccionado"
+          (change)="aplicarFiltros()">
+          <option value="">Todos los estados</option>
+          <option *ngFor="let estado of estados" [value]="estado">{{ estado }}</option>
+        </select>
+      </div>
+
+      <!-- Precio mínimo -->
+      <div class="filtro-item">
+        <label for="precioMin">Precio mínimo (€):</label>
+        <input
+          type="number"
+          id="precioMin"
+          class="form-control"
+          [(ngModel)]="precioMin"
+          (input)="aplicarFiltros()"
+          placeholder="0"
+          min="0">
+      </div>
+
+      <!-- Precio máximo -->
+      <div class="filtro-item">
+        <label for="precioMax">Precio máximo (€):</label>
+        <input
+          type="number"
+          id="precioMax"
+          class="form-control"
+          [(ngModel)]="precioMax"
+          (input)="aplicarFiltros()"
+          placeholder="5000"
+          min="0">
+      </div>
+
+      <!-- Botón limpiar filtros -->
+      <div class="filtro-item filtro-botones">
+        <button class="btn btn-secondary" (click)="limpiarFiltros()">
+          Limpiar Filtros
+        </button>
+      </div>
+    </div>
+
+    <div class="resultados-info">
+      <p>Mostrando {{ skinsFiltradas.length }} de {{ skins.length }} productos</p>
+    </div>
+  </div>
+</section>
 
 <!-- Contenedor de Productos -->
 <main class="productos-container">
@@ -21,88 +104,24 @@
     <button class="btnAgregar"><p>+</p></button>
   </div>
 
-  <div class="card">
-    <img src="../assets/pruebaimg.png" alt="Skin CSGO">
-    <div class="card-content">
-      <h2>AWP | Dragon Lore</h2>
-      <div class="price">1.650.50€</div>
+  <div class="card" *ngFor="let skin of skinsFiltradas">
+    <img src="../assets/pruebaimg.png" [alt]="skin.nombre">    <div class="card-content">
+      <h2>{{ skin.nombre }}</h2>
+      <div class="price">{{ skin.precio.toFixed(2) }}€</div>
       <div class="estado-container">
-        <span class="estado">Factory New</span>
-        <span class="rareza comun">C</span>
+        <span class="estado">{{ skin.estado }}</span>
+        <span class="rareza" [ngClass]="getRarezaClass(skin.rareza)">{{ skin.rareza }}</span>
       </div>
-      <p class="desc">Skin con diseño táctico en rojo y negro. Desgaste mínimo, ideal para coleccionistas y jugadores competitivos.</p>
-      <button class="btn" (click)="afegirCarrito(1)">Comprar</button>
+      <p class="desc">{{ skin.descripcion }}</p>
+      <button class="btn" (click)="afegirCarrito(skin.id)">Comprar</button>
     </div>
   </div>
 
-  <div class="card">
-    <img src="../assets/pruebaimg.png" alt="Skin CSGO">
-    <div class="card-content">
-      <h2>AWP | Dragon Lore</h2>
-      <div class="price">1.650.50€</div>
-      <div class="estado-container">
-        <span class="estado">Factory New</span>
-        <span class="rareza pococomun">P.C</span>
-      </div>
-      <p class="desc">Skin con diseño táctico en rojo y negro. Desgaste mínimo, ideal para coleccionistas y jugadores competitivos.</p>
-      <button class="btn" (click)="afegirCarrito(2)">Comprar</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <img src="../assets/pruebaimg.png" alt="Skin CSGO">
-    <div class="card-content">
-      <h2>AWP | Dragon Lore</h2>
-      <div class="price">1.650.50€</div>
-      <div class="estado-container">
-        <span class="estado">Factory New</span>
-        <span class="rareza raro">R</span>
-      </div>
-      <p class="desc">Skin con diseño táctico en rojo y negro. Desgaste mínimo, ideal para coleccionistas y jugadores competitivos.</p>
-      <button class="btn" (click)="afegirCarrito(3)">Comprar</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <img src="../assets/pruebaimg.png" alt="Skin CSGO">
-    <div class="card-content">
-      <h2>AWP | Dragon Lore</h2>
-      <div class="price">1.650.50€</div>
-      <div class="estado-container">
-        <span class="estado">Factory New</span>
-        <span class="rareza mitico">M</span>
-      </div>
-      <p class="desc">Skin con diseño táctico en rojo y negro. Desgaste mínimo, ideal para coleccionistas y jugadores competitivos.</p>
-      <button class="btn" (click)="afegirCarrito(4)">Comprar</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <img src="../assets/pruebaimg.png" alt="Skin CSGO">
-    <div class="card-content">
-      <h2>AWP | Dragon Lore</h2>
-      <div class="price">1.650.50€</div>
-      <div class="estado-container">
-        <span class="estado">Factory New</span>
-        <span class="rareza legendario">L</span>
-      </div>`
-      <p class="desc">Skin con diseño táctico en rojo y negro. Desgaste mínimo, ideal para coleccionistas y jugadores competitivos.</p>
-      <button class="btn" (click)="afegirCarrito(5)">Comprar</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <img src="../assets/pruebaimg.png" alt="Skin CSGO">
-    <div class="card-content">
-      <h2>AWP | Dragon Lore</h2>
-      <div class="price">1.650.50€</div>
-      <div class="estado-container">
-        <span class="estado">Factory New</span>
-        <span class="rareza ancestral">A</span>
-      </div>
-      <p class="desc">Skin con diseño táctico en rojo y negro. Desgaste mínimo, ideal para coleccionistas y jugadores competitivos.</p>
-      <button class="btn" (click)="afegirCarrito(6)">Comprar</button>
-    </div>
+  <!-- Mensaje cuando no hay resultados -->
+  <div class="no-resultados" *ngIf="skinsFiltradas.length === 0">
+    <h3>No se encontraron productos</h3>
+    <p>Intenta ajustar los filtros para ver más resultados</p>
+    <button class="btn btn-primary" (click)="limpiarFiltros()">Ver todos los productos</button>
   </div>
 </main>
 
