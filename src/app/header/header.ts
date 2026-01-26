@@ -3,17 +3,19 @@ import {RouterLink} from "@angular/router";
 import {Usuaris} from '../serveis/usuaris';
 import {interval, Subscription} from 'rxjs';
 
-
 @Component({
   selector: 'app-header',
-    imports: [
-        RouterLink
-    ],
+  imports: [
+    RouterLink
+  ],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
 export class Header implements OnInit{
   private sub!: Subscription;
+
+  // Aqui posem el servei per poder accedirhi
+  constructor(public usuarioService: Usuaris) {}
 
   ngOnInit() {
     this.sub = interval(2000).subscribe(() => {
@@ -26,6 +28,4 @@ export class Header implements OnInit{
   ngOnDestroy(){
     this.sub.unsubscribe();
   }
-
-  protected readonly Usuaris = Usuaris;
 }

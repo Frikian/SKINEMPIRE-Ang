@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {RouterLink} from '@angular/router';
+import {RouterLink, Router} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import {Usuaris} from '../serveis/usuaris';
 
@@ -15,11 +15,12 @@ import {Usuaris} from '../serveis/usuaris';
 export class Login {
   mensaje: string = '';
   nombrem: string = '';
-  constructor(private usuarioservice: Usuaris) {
+
+  constructor(private usuarioservice: Usuaris, private router: Router) {
   }
+
   enviarLogin() {
-    // login.ts
-    const nombre = (document.querySelector<HTMLInputElement>('input[name="nom"]')!).value;
+    const nombre = (document.querySelector<HTMLInputElement>('input[name="usuari"]')!).value;
     const password = (document.querySelector<HTMLInputElement>('input[name="pass"]')!).value;
 
     if (!nombre || !password) {
@@ -34,7 +35,12 @@ export class Login {
     } else if (passwordGuardada === password) {
       this.mensaje = `¡Bienvenido, ${nombre}!`;
       this.usuarioservice.nom = nombre;
-      this.nombrem = nombre
+      this.nombrem = nombre;
+
+      // posem una ruta per al donar clic en iniciar sesion ens porti a l'inici
+      setTimeout(() => {
+        this.router.navigate(['/index']);
+      }, 1000);
     } else {
       this.mensaje = 'Contraseña incorrecta';
     }
@@ -42,7 +48,7 @@ export class Login {
     console.log('Password guardada:', passwordGuardada);
   }
 
-  actualizarNombre(event:Event) {
+  actualizarNombre(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input) {
       this.nombrem = input.value;
