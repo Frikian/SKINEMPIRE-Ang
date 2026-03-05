@@ -1,17 +1,19 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
-require('dotenv').config();
 
 const app = express();
 app.use(cors({ origin: 'http://localhost:4200' }));
 app.use(express.json());
 
+const EMAIL_USER = 'skinempire67@gmail.com';
+const EMAIL_PASS = 'qtcp gakr uwlt mpsg';
+
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: EMAIL_USER,
+    pass: EMAIL_PASS,
   },
 });
 
@@ -25,8 +27,8 @@ app.post('/api/contacto', async (req, res) => {
   const motivoTexto = { '1': 'Soporte', '2': 'Sugerencias', '3': 'Otro' }[motivo] || motivo;
 
   const mailOptions = {
-    from: `"SkinEmpires Contacto" <${process.env.EMAIL_USER}>`,
-    to: process.env.EMAIL_USER,
+    from: `"SkinEmpires Contacto" <${EMAIL_USER}>`,
+    to: EMAIL_USER,
     replyTo: email,
     subject: `[SkinEmpires] ${motivoTexto} - ${nombre}`,
     html: `
@@ -50,7 +52,5 @@ app.post('/api/contacto', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
-
-
