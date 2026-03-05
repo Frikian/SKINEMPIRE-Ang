@@ -34,16 +34,19 @@ body {
   margin: 0;
   cursor: default;
 }
+
 .header_right {
   display: flex;
   gap: 1vw;
 }
+
 .header_right_group {
   margin-left: auto;
   display: flex;
   align-items: center;
   gap: 1.2vw;
 }
+
 /*------------   header: spam de redes   ------------*/
 .redes {
   width: 1.5vw;
@@ -56,6 +59,7 @@ body {
   transform: scale(1.15);
   filter: brightness(1.2);
 }
+
 /*------------   colores   ------------*/
 .color_lion {
   color: #B59356;
@@ -87,7 +91,6 @@ body {
   width: 2vw;
   height: auto;
 }
-
 
 /*------------   nav   ------------*/
 .nav_bar {
@@ -149,7 +152,7 @@ body {
   transition: color 0.2s ease;
 }
 
-.nav_links a:hover  {
+.nav_links a:hover {
   color: #FDEBB7;
   text-shadow: 0 0 6px #fdebb799;
 }
@@ -165,11 +168,12 @@ body {
   transform: rotate(180deg) scale(1.1);
 }
 
-.carrito_compra{
+.carrito_compra {
   margin-right: 2vw;
   margin-left: 2vw;
 }
 
+/*------------   section hero   ------------*/
 .section {
   position: relative;
   width: 100%;
@@ -202,6 +206,7 @@ body {
   font-size: 1.2rem;
 }
 
+/*------------   contacto   ------------*/
 .contacto-container {
   display: flex;
   justify-content: center;
@@ -211,7 +216,8 @@ body {
   flex-wrap: wrap;
 }
 
-.info-contacto, .formulario-contacto {
+.info-contacto,
+.formulario-contacto {
   background-color: #262525;
   border: 2px solid #b59356;
   border-radius: 8px;
@@ -220,7 +226,8 @@ body {
   box-shadow: 0 0 20px rgba(159, 89, 29, 0.3);
 }
 
-.info-contacto h2, .formulario-contacto h2 {
+.info-contacto h2,
+.formulario-contacto h2 {
   color: #fdebb7;
   margin-bottom: 20px;
 }
@@ -230,7 +237,9 @@ body {
   margin-bottom: 10px;
 }
 
-.formulario-contacto input, .formulario-contacto textarea {
+/*------------   formulario: inputs y textarea   ------------*/
+.formulario-contacto input,
+.formulario-contacto textarea {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
@@ -238,9 +247,12 @@ body {
   border: 1px solid #9f591d;
   color: #E8EBF7;
   border-radius: 4px;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
 }
 
-.formulario-contacto input:focus, .formulario-contacto textarea:focus {
+.formulario-contacto input:focus,
+.formulario-contacto textarea:focus {
   outline: none;
   border-color: #b49255;
   box-shadow: 0 0 10px #b49255;
@@ -251,6 +263,37 @@ body {
   height: 120px;
 }
 
+/*------------   formulario: select (motivo)   ------------*/
+.formulario-contacto select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: #323031;
+  border: 1px solid #9f591d;
+  color: #E8EBF7;
+  border-radius: 4px;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23B59356' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.formulario-contacto select:focus {
+  outline: none;
+  border-color: #b49255;
+  box-shadow: 0 0 10px #b49255;
+}
+
+.formulario-contacto select option {
+  background-color: #262525;
+  color: #E8EBF7;
+}
+
+/*------------   formulario: botón   ------------*/
 .formulario-contacto button {
   width: 100%;
   background-color: #804410;
@@ -259,20 +302,43 @@ body {
   padding: 12px;
   border-radius: 4px;
   font-weight: bold;
+  font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
-.formulario-contacto button:hover {
+.formulario-contacto button:hover:not(:disabled) {
   background-color: #9f591d;
 }
 
+.formulario-contacto button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/*------------   formulario: feedback   ------------*/
+.feedback-exito {
+  margin-top: 12px;
+  color: #7ddb7d;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.feedback-error {
+  margin-top: 12px;
+  color: #e07070;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+/*------------   mapa   ------------*/
 .mapa {
   width: 100%;
   margin-top: 40px;
   border-top: 2px solid #9f591d;
 }
 
+/*------------   footer   ------------*/
 .footer_index {
   background-color: #804410;
   color: #FDEBB7;
@@ -363,7 +429,7 @@ body {
   color: rgba(253, 235, 183, 0.7);
 }
 
-
+/*------------   scrollbar   ------------*/
 ::-webkit-scrollbar {
   width: 12px;
   height: 12px;
@@ -381,6 +447,7 @@ body {
   background: #9f591d;
 }
 
+/*------------   responsive   ------------*/
 @media (max-width: 768px) {
   .contacto-container {
     flex-direction: column;
@@ -388,7 +455,8 @@ body {
     padding: 30px;
   }
 
-  .info-contacto, .formulario-contacto {
+  .info-contacto,
+  .formulario-contacto {
     width: 90%;
   }
 }

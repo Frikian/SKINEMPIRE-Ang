@@ -1,5 +1,3 @@
-
-
 <section class="section">
   <img class="sectionImg" src="../assets/headerContacto.jpg" alt="foto header">
   <div class="sectionText">
@@ -11,23 +9,50 @@
 <main class="contacto-container">
   <div class="info-contacto">
     <h2>Información</h2>
-    <p>Email: soporte@skinempires.com</p>
+    <p>Email: soporte&#64;skinempires.com</p>
     <p>Teléfono: +34 912 345 678</p>
     <p>Horario: Lunes a Viernes de 9:00 a 18:00</p>
   </div>
 
-  <form class="formulario-contacto">
+  <form class="formulario-contacto" (ngSubmit)="enviarFormulario()">
     <h2>Envíanos un mensaje</h2>
-    <select class="form-select form-select-lg mb-3" aria-label="Large select example">
-      <option selected>Motivo</option>
+
+    <select [(ngModel)]="motivo" name="motivo" required>
+      <option value="" disabled selected>Motivo</option>
       <option value="1">Soporte</option>
       <option value="2">Sugerencias</option>
       <option value="3">Otro</option>
     </select>
-    <input type="text" placeholder="Nombre" required>
-    <input type="email" placeholder="Correo electrónico" required>
-    <textarea placeholder="Escribe tu mensaje..." required></textarea>
-    <button type="submit">Enviar</button>
+
+    <input
+      type="text"
+      placeholder="Nombre"
+      [(ngModel)]="nombre"
+      name="nombre"
+      required
+    >
+
+    <input
+      type="email"
+      placeholder="Correo electrónico"
+      [(ngModel)]="email"
+      name="email"
+      required
+    >
+
+    <textarea
+      placeholder="Escribe tu mensaje..."
+      [(ngModel)]="mensaje"
+      name="mensaje"
+      required
+    ></textarea>
+
+    <button type="submit" [disabled]="enviando">
+      {{ enviando ? 'Enviando...' : 'Enviar' }}
+    </button>
+
+    <p class="feedback-exito" *ngIf="exito">✅ Mensaje enviado correctamente.</p>
+    <p class="feedback-error" *ngIf="error">❌ Error al enviar. Inténtalo de nuevo.</p>
   </form>
 </main>
 
@@ -38,5 +63,3 @@
     referrerpolicy="no-referrer-when-downgrade">
   </iframe>
 </section>
-
-
