@@ -15,6 +15,24 @@ const db = admin.firestore();
 // --- RUTAS ---
 app.post('/usuaris', async (req, res) => {
   const { nom, email, contrasena } = req.body;
+  const motivoTexto = { '1': 'Soporte', '2': 'Sugerencias', '3': 'Otro' }[motivo] || motivo;
+
+  const mailOptions = {
+    from: `"SkinEmpire" <${EMAIL_USER}>`,
+    to: EMAIL_USER,
+    replyTo: email,
+    subject: `[SkinEmpire] ${motivoTexto} - ${nombre}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; background:#323031; color:#E8EBF7; padding:24px; border-radius:8px;">
+        <h2 style="color:#FDEBB7; border-bottom:2px solid #B59356; padding-bottom:8px;">Nuevo mensaje de contacto</h2>
+        <p><strong style="color:#B59356;">Nombre:</strong> ${nombre}</p>
+        <p><strong style="color:#B59356;">Email:</strong> ${email}</p>
+        <p><strong style="color:#B59356;">Motivo:</strong> ${motivoTexto}</p>
+        <p><strong style="color:#B59356;">Mensaje:</strong></p>
+        <p style="background:#262525; padding:12px; border-radius:4px; border-left:3px solid #9f591d;">${mensaje}</p>
+      </div>
+    `,
+  };
 
   try {
     const ref = db.collection('usuaris').doc(nom);
@@ -32,3 +50,5 @@ app.post('/usuaris', async (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
+const PORT = 3000;
+app.listen(PORT, () => console.log(`http://localhost:${PORT}`));
