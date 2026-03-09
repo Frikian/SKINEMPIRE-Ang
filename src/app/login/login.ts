@@ -23,29 +23,16 @@ export class Login {
     const nombre = (document.querySelector<HTMLInputElement>('input[name="usuari"]')!).value;
     const password = (document.querySelector<HTMLInputElement>('input[name="pass"]')!).value;
 
-    if (!nombre || !password) {
-      this.mensaje = 'Usuario y contraseña son obligatorios';
-      return;
-    }
-
-    const passwordGuardada = localStorage.getItem(nombre);
-
-    if (!passwordGuardada) {
-      this.mensaje = 'Usuario no encontrado';
-    } else if (passwordGuardada === password) {
-      this.mensaje = `¡Bienvenido, ${nombre}!`;
-      this.usuarioservice.nom = nombre;
-      this.nombrem = nombre;
-
-      // posem una ruta per al donar clic en iniciar sesion ens porti a l'inici
-      setTimeout(() => {
-        this.router.navigate(['/index']);
-      }, 1000);
-    } else {
-      this.mensaje = 'Contraseña incorrecta';
-    }
-
-    console.log('Password guardada:', passwordGuardada);
+    this.usuarioservice.login({ nombre, password }).subscribe({
+      next: (res: any) => {
+        this.mensaje = `¡Bienvenido, ${res.nombre}!`;
+        this.usuarioservice.setUsuario(res.nombre);
+        setTimeout(() => this.router.navigate(['/index']), 1000);
+      },
+      error: (err) => {
+        this.mensaje = "Credencials incorrectes";
+      }
+    });
   }
 
   actualizarNombre(event: Event) {

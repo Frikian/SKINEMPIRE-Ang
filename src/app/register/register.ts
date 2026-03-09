@@ -1,43 +1,53 @@
 import { Component } from '@angular/core';
-import {Usuaris} from '../serveis/usuaris';
-import {RouterLink} from '@angular/router';
+import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+// Importamos el cliente HTTP y el módulo necesario
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
-  imports: [
-    RouterLink
-  ],
+  imports: [RouterLink, FormsModule], // Asegúrate de tener HttpClientModule en tu app.config si usas standalone
   templateUrl: './register.html',
   styleUrl: './register.css',
+  standalone: true
 })
 export class Register {
-  nom: string= ""
-  mensaje: string=""
-  constructor(private Usuarisss: Usuaris) {
-  }
+  nom: string = "";
+  email: string = "";
+  contrasena: string = "";
+  mensaje: string = "";
 
-  enviarLogin(){
-    const nombre = (document.querySelector<HTMLInputElement>('input[name="usuari"]')!).value;
-    const password = (document.querySelector<HTMLInputElement>('input[name="pass"]')!).value;
-    const passwordGuardada = localStorage.getItem(nombre);
+  // Inyectamos HttpClient directamente aquí
+  constructor(private http: HttpClient) {}
 
-    if(!passwordGuardada){
-      alert("Registrat correctament :)")
-    }
-    if (!nombre || !password) {
-      this.mensaje = 'Usuario y contraseña son obligatorios';
+  enviarRegistro() {
+    if (!this.nom || !this.email || !this.contrasena) {
+      this.mensaje = "Por favor, rellena todos los campos";
       return;
     }
 
-    // Guardar usuario como clave y contraseña como valor
-    if (!localStorage.getItem(nombre)) {
-      localStorage.setItem(nombre, password);
-      this.mensaje = 'Usuario registrado correctamente!';
-      (document.querySelector('form') as HTMLFormElement).reset();
-    } else {
-      this.mensaje = 'El usuario ya existe';
-    }
+    // Preparamos los datos con los nombres que espera tu server.js
+    const datosUsuario = {
+      nom: this.nom,
+      email: this.email,
+      contrasena: this.contrasena
+    };
 
-    console.log('Usuarios en localStorage:', localStorage);
+    // Realizamos la petición directamente al puerto 3000
+    this.http.post('http://localhost:4020/usuaris', datosUsuario).subscribe({
+      next: (res: any) => {
+        // Rellenamos el mensaje con la respuesta del servidor
+        this.mensaje = "¡Usuario " + this.nom + " guardado en Firebase con éxito!";
+        console.log('Respuesta directa:', res);
+
+        // Opcional: Limpiar campos tras el registro exitoso
+        // this.nom = ""; this.email = ""; this.contrasena = "";
+      },
+      error: (err) => {
+        // Manejo de errores directamente en el componente
+        this.mensaje = "Error: " + (err.error?.mensaje || "No se pudo conectar con el servidor");
+        console.error('Error en la petición:', err);
+      }
+    });
   }
 }

@@ -10,22 +10,24 @@ import {interval, Subscription} from 'rxjs';
   ],
   templateUrl: './header.html',
   styleUrl: './header.css',
+  standalone: true
 })
 export class Header implements OnInit{
   private sub!: Subscription;
+  nombreUsuario: string | null = null;
 
-  // Aqui posem el servei per poder accedirhi
-  constructor(public usuarioService: Usuaris) {}
+  constructor(public usuarioService: Usuaris) {
+    nom: "";
+  }
 
   ngOnInit() {
+    this.usuarioService.currentUser$.subscribe(nombre => {
+      this.nombreUsuario = nombre;
     this.sub = interval(2000).subscribe(() => {
       document.getElementById("internet")!.textContent = (Math.floor(Math.random() * (1250 - 1000 + 1)) + 1000).toString()
       document.getElementById("usuarios")!.textContent = (Math.floor(Math.random() * (1600000 - 1500000 + 1)) + 1500000).toString()
       document.getElementById("armas")!.textContent = (Math.floor(Math.random() * (1600000 - 1500000 + 1)) + 1500000).toString()
-    })
-  }
-
-  ngOnDestroy(){
-    this.sub.unsubscribe();
+    })})
   }
 }
+

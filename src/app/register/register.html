@@ -1,19 +1,22 @@
 <div class="formulari-sencer">
   <h1>Registre el teu compte</h1>
   <div class="signup-form">
-    <form (submit)="enviarLogin(); $event.preventDefault()">
+    <form>
       <label for="usuari">Usuari</label>
-      <input class="registerformsectioninput" type="text" name="usuari" id="usuari" placeholder="Guaperes_777" required>
+      <input [(ngModel)]="nom" class="registerformsectioninput" type="text" name="usuari" id="usuari" required>
 
-      <label type="email">Correu</label>
-      <input class="registerformsectioninput" type="email" name="email" id="email" placeholder="xxx@gmail.com" required>
+      <label for="email">Correu</label>
+      <input [(ngModel)]="email" class="registerformsectioninput" type="email" name="email" id="email" required>
+
       <label for="pass">Contrasenya</label>
-      <input class="registerformsectioninput" type="password" name="pass" id="pass" placeholder="Minim 8 caracters" required>
+      <input [(ngModel)]="contrasena" class="registerformsectioninput" type="password" name="pass" id="pass" required>
 
-      <input  type="submit">
-      {{mensaje}}
+      <input type="button" value="Registrar" (click)="enviarRegistro()">
+
+      <p>{{mensaje}}</p>
     </form>
   </div>
+</div>
   <footer>
     <h3>
       Ja tens compte?
@@ -23,7 +26,6 @@
     </h3>
     <p><a href="register"></a></p>
   </footer>
-</div>
 
 <div class=""></div>
 
