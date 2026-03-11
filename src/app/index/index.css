@@ -414,3 +414,119 @@ body {
   color: #FDEBB7D8;
   line-height: 1.6;
 }
+
+.skins_tabla {
+  text-align: center;
+}
+
+.skins_search_wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5vw;
+}
+
+.skins_search {
+  background: rgba(50, 48, 49, 0.85);
+  border: 1px solid rgba(181, 147, 86, 0.4);
+  border-radius: 0.5vw;
+  color: #FDEBB7;
+  font-size: 1vw;
+  padding: 0.5vw 1.2vw;
+  width: 40%;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.skins_search:focus {
+  border-color: #B59356;
+  box-shadow: 0 0 8px rgba(181, 147, 86, 0.4);
+}
+
+.skins_search::placeholder {
+  color: rgba(253, 235, 183, 0.4);
+}
+
+.skins_table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1vw;
+}
+
+.skins_table thead tr {
+  background: rgba(181, 147, 86, 0.15);
+  border-bottom: 2px solid #B59356;
+}
+
+.skins_table th {
+  color: #B59356;
+  padding: 0.8vw 1.2vw;
+  text-align: left;
+  font-size: 1.1vw;
+}
+
+.skins_table tbody tr {
+  border-bottom: 1px solid rgba(181, 147, 86, 0.15);
+  transition: background 0.2s ease;
+}
+
+.skins_table tbody tr:hover {
+  background: rgba(181, 147, 86, 0.08);
+}
+
+.skins_table td {
+  padding: 0.6vw 1.2vw;
+  color: rgba(253, 235, 183, 0.85);
+  text-align: left;
+}
+
+.skins_table td:first-child {
+  color: rgba(181, 147, 86, 0.6);
+  font-size: 0.9vw;
+  width: 60px;
+}
+
+.skins_loading,
+.skins_error,
+.skins_empty {
+  padding: 2vw;
+  font-size: 1.1vw;
+  color: rgba(253, 235, 183, 0.6);
+}
+
+.skins_error {
+  color: #c0392b;
+}
+
+.skins_pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5vw;
+  margin-top: 1.5vw;
+}
+
+.skins_pagination button {
+  background: rgba(181, 147, 86, 0.15);
+  border: 1px solid rgba(181, 147, 86, 0.4);
+  border-radius: 0.5vw;
+  color: #FDEBB7;
+  font-size: 0.95vw;
+  padding: 0.4vw 1.2vw;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.skins_pagination button:hover:not([disabled]) {
+  background: rgba(181, 147, 86, 0.3);
+  box-shadow: 0 0 6px rgba(181, 147, 86, 0.3);
+}
+
+.skins_pagination button[disabled] {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.skins_pagination span {
+  font-size: 1vw;
+  color: rgba(253, 235, 183, 0.7);
+}

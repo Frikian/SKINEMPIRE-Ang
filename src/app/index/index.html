@@ -53,4 +53,45 @@
   </div>
 </div>
 
+<div class="skins_tabla container mt-5 mb-5">
+  <h2 class="titulo_apartado">Catálogo de Skins</h2>
+
+  <div class="skins_search_wrapper">
+    <input
+      class="skins_search"
+      type="text"
+      placeholder="Buscar skin..."
+      [(ngModel)]="searchTerm"
+      (input)="onSearch()"
+    />
+  </div>
+
+  <div *ngIf="isLoading" class="skins_loading">Cargando skins...</div>
+  <div *ngIf="errorMsg" class="skins_error">{{ errorMsg }}</div>
+
+  <table *ngIf="!isLoading && !errorMsg" class="skins_table">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>Nombre de la Skin</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let skin of displayedSkins; let i = index">
+      <td>{{ currentPage * 20 + i + 1 }}</td>
+      <td>{{ skin.name }}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!isLoading && filteredSkins.length === 0" class="skins_empty">
+    No se encontraron skins.
+  </div>
+
+  <div class="skins_pagination" *ngIf="totalPages > 1">
+    <button (click)="prevPage()" [disabled]="currentPage === 0">← Anterior</button>
+    <span>Página {{ currentPage + 1 }} de {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages - 1">Siguiente →</button>
+  </div>
+</div>
 
