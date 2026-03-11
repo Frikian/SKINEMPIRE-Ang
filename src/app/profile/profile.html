@@ -1,0 +1,93 @@
+<!-- profile.html -->
+<div class="perfil-wrapper">
+
+  <!-- Estat de càrrega inicial -->
+  <div *ngIf="carregant && !nomActual" class="perfil-carregant">
+    Carregant perfil...
+  </div>
+
+  <ng-container *ngIf="nomActual">
+
+    <!-- Capçalera del perfil -->
+    <div class="perfil-header">
+      <div class="perfil-avatar">
+        <img src="assets/icons/user-icon.png" alt="Avatar" class="avatar-img" />
+      </div>
+      <div class="perfil-header-info">
+        <h2 class="perfil-nom">{{ nomActual }}</h2>
+        <p class="perfil-email color_lion">{{ emailActual }}</p>
+      </div>
+    </div>
+
+    <!-- Missatge d'èxit / error -->
+    <div
+      *ngIf="missatge"
+      class="perfil-missatge"
+      [class.ok]="tipusMissatge === 'ok'"
+      [class.error]="tipusMissatge === 'error'"
+    >
+      {{ missatge }}
+    </div>
+
+    <!-- Mode visualització -->
+    <div *ngIf="!editant" class="perfil-card">
+      <h3 class="perfil-seccio-titol">Informació del compte</h3>
+
+      <div class="perfil-fila">
+        <span class="perfil-etiqueta color_lion">Nom d'usuari</span>
+        <span class="perfil-valor">{{ nomActual }}</span>
+      </div>
+
+      <div class="perfil-fila">
+        <span class="perfil-etiqueta color_lion">Correu electrònic</span>
+        <span class="perfil-valor">{{ emailActual }}</span>
+      </div>
+
+      <div class="perfil-accions">
+        <button class="btn" (click)="obrirEdicio()">Editar perfil</button>
+        <button class="btn btn-sortir" (click)="tancarSessio()">Tancar sessió</button>
+      </div>
+    </div>
+
+    <!-- Mode edició -->
+    <div *ngIf="editant" class="perfil-card perfil-card--edicio">
+      <h3 class="perfil-seccio-titol">Editar informació</h3>
+
+      <div class="perfil-grup">
+        <label class="perfil-label color_lion" for="nouNom">Nom d'usuari</label>
+        <input
+          id="nouNom"
+          class="perfil-input"
+          type="text"
+          [(ngModel)]="nouNom"
+          placeholder="Nou nom d'usuari"
+          maxlength="30"
+        />
+      </div>
+
+      <div class="perfil-grup">
+        <label class="perfil-label color_lion" for="nouEmail">Correu electrònic</label>
+        <input
+          id="nouEmail"
+          class="perfil-input"
+          type="email"
+          [(ngModel)]="nouEmail"
+          placeholder="nou@email.com"
+        />
+      </div>
+
+      <div class="perfil-accions">
+        <button class="btn" (click)="desarCanvis()" [disabled]="carregant">
+          <span *ngIf="!carregant">Desar canvis</span>
+          <span *ngIf="carregant">Desant...</span>
+        </button>
+        <button class="btn btn-sortir" (click)="cancelarEdicio()" [disabled]="carregant">
+          Cancel·lar
+        </button>
+      </div>
+    </div>
+
+  </ng-container>
+
+</div>
+

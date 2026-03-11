@@ -156,4 +156,77 @@ app.get('/usuaris', async (req, res) => {
   }
 });
 
+// --- OBTENIR UN USUARI PER NOM ---
+app.get('/usuaris/:nom', async (req, res) => {
+  const { nom } = req.params;
+  try {
+    const doc = await db.collection('usuaris').doc(nom).get();
+    if (!doc.exists) {
+      return res.status(404).json({ mensaje: 'Usuari no trobat.' });
+    }
+    res.json({ id: doc.id, ...doc.data() });
+  } catch (error) {
+    console.error('Error en GET /usuaris/:nom:', error);
+    res.status(500).json({ mensaje: 'Error intern del servidor.' });
+  }
+});
+
+// --- ACTUALITZAR USUARI (nom i/o email) ---
+app.patch('/usuaris/:nom', async (req, res) => {
+  const nomActual = req.params.nom;
+  const { nouNom, email } = req.body;
+
+  if (!nouNom && !email) {
+    return res.status(400).json({ mensaje: 'Has de proporcionar almenys un camp per actualitzar.' });
+  }
+
+  try {
+    const refActual = db.collection('usuaris').doc(nomActual);
+    const docActual = await refActual.get();
+
+    if (!docActual.exists) {
+      return res.status(404).json({ mensaje: 'Usuari no trobat.' });
+    }
+
+    const dadesActuals = docActual.data();
+
+    // Si el nom canvia cal crear un nou doc i esborrar l'antic
+    // (el doc ID a Firestore és el nom d'usuari)
+    if (nouNom && nouNom !== nomActual) {
+      const refNou = db.collection('usuaris').doc(nouNom);
+      const docNou = await refNou.get();
+      if (docNou.exists) {
+        return res.status(400).json({ mensaje: 'El nou nom ja existeix.' });
+      }
+
+      await refNou.set({
+        nom: nouNom,
+        email: email ?? dadesActuals.email,
+        contrasena: dadesActuals.contrasena,
+      });
+      await refActual.delete();
+
+      return res.status(200).json({
+        mensaje: 'Usuari actualitzat correctament.',
+        nom: nouNom,
+        email: email ?? dadesActuals.email,
+      });
+    }
+
+    // Només actualitzar email
+    const actualitzacio = {};
+    if (email) actualitzacio.email = email;
+    await refActual.update(actualitzacio);
+
+    res.status(200).json({
+      mensaje: 'Usuari actualitzat correctament.',
+      nom: nomActual,
+      email: email ?? dadesActuals.email,
+    });
+  } catch (error) {
+    console.error('Error en PATCH /usuaris:', error);
+    res.status(500).json({ mensaje: 'Error intern del servidor.' });
+  }
+});
+
 app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));

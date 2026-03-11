@@ -11,6 +11,7 @@ import {TerminosYCondiciones} from './terminos-y-condiciones/terminos-y-condicio
 import {Tienda} from './tienda/tienda';
 import {Venta} from './venta/venta';
 import {VerifyEmail} from './verify-email/verify-email';
+import { Profile } from './profile/profile';
 
 
 export const routes: Routes = [
@@ -26,5 +27,6 @@ export const routes: Routes = [
   {path: 'terminos-y-condiciones', component: TerminosYCondiciones},
   {path: 'tienda', component: Tienda},
   {path: 'venta', component: Venta},
-  {path: 'verify-email', component: VerifyEmail}
+  {path: 'verify-email', component: VerifyEmail},
+  {path: 'profile', component: Profile}
 ];

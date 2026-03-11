@@ -1,0 +1,246 @@
+
+/* ── Contenidor principal ─────────────────────────────────────── */
+.perfil-wrapper {
+  max-width: 560px;
+  margin: 4vw auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── Estat de càrrega ─────────────────────────────────────────── */
+.perfil-carregant {
+  text-align: center;
+  color: #B59356;
+  font-size: 1rem;
+  padding: 2rem;
+  letter-spacing: 0.04em;
+}
+
+/* ── Capçalera ────────────────────────────────────────────────── */
+.perfil-header {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  background: #262525;
+  border: 2px solid #b59356;
+  border-radius: 10px;
+  padding: 1.4rem 1.8rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+.perfil-avatar {
+  flex-shrink: 0;
+}
+
+.avatar-img {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 2px solid #b59356;
+  background: #323031;
+  object-fit: cover;
+  padding: 6px;
+  filter: brightness(0.95);
+}
+
+.perfil-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.perfil-nom {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #FDEBB7;
+  margin: 0;
+  letter-spacing: 0.03em;
+}
+
+.perfil-email {
+  font-size: 0.95rem;
+  margin: 0;
+  opacity: 0.85;
+}
+
+/* ── Missatge d'estat ─────────────────────────────────────────── */
+.perfil-missatge {
+  padding: 0.7rem 1.1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: center;
+  border-left: 4px solid transparent;
+}
+
+.perfil-missatge.ok {
+  background: rgba(80, 160, 80, 0.15);
+  color: #7ecb7e;
+  border-left-color: #7ecb7e;
+}
+
+.perfil-missatge.error {
+  background: rgba(180, 60, 60, 0.15);
+  color: #e07878;
+  border-left-color: #e07878;
+}
+
+/* ── Card de dades / edició ───────────────────────────────────── */
+.perfil-card {
+  background: #262525;
+  border: 2px solid #b59356;
+  border-radius: 10px;
+  padding: 1.6rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.3s ease;
+}
+
+.perfil-card--edicio {
+  border-color: #9f591d;
+}
+
+.perfil-seccio-titol {
+  color: #FDEBB7;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-bottom: 2px solid #b59356;
+  padding-bottom: 0.6rem;
+  margin: 0;
+}
+
+/* ── Files de visualització ───────────────────────────────────── */
+.perfil-fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(181, 147, 86, 0.15);
+}
+
+.perfil-fila:last-of-type {
+  border-bottom: none;
+}
+
+.perfil-etiqueta {
+  font-weight: bold;
+  font-size: 0.9rem;
+  min-width: 140px;
+}
+
+.perfil-valor {
+  color: #E8EBF7;
+  font-size: 0.95rem;
+  text-align: right;
+  word-break: break-all;
+}
+
+/* ── Formulari d'edició ───────────────────────────────────────── */
+.perfil-grup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.perfil-label {
+  font-size: 0.88rem;
+  font-weight: bold;
+  letter-spacing: 0.02em;
+}
+
+.perfil-input {
+  background: #323031;
+  border: 1.5px solid #b59356;
+  border-radius: 6px;
+  padding: 0.55rem 0.9rem;
+  color: #E8EBF7;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  width: 100%;
+}
+
+.perfil-input::placeholder {
+  color: #5f5f5f;
+}
+
+.perfil-input:focus {
+  border-color: #FDEBB7;
+  box-shadow: 0 0 0 3px rgba(253, 235, 183, 0.12);
+}
+
+/* ── Botons ───────────────────────────────────────────────────── */
+.perfil-accions {
+  display: flex;
+  gap: 0.9rem;
+  margin-top: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  background-color: #804410;
+  color: #E8EBF7;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.95rem;
+  flex: 1;
+  transition: background-color 0.3s ease;
+  min-width: 120px;
+}
+
+.btn:hover:not(:disabled) {
+  background-color: #9f591d;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-sortir {
+  background-color: transparent;
+  border: 1.5px solid #804410;
+  color: #FDEBB7;
+}
+
+.btn-sortir:hover:not(:disabled) {
+  background-color: rgba(128, 68, 16, 0.25);
+}
+
+/* ── Colors reutilitzats del global ───────────────────────────── */
+.color_lion   { color: #B59356; }
+.color_russet { color: #804410; }
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .perfil-wrapper {
+    margin: 6vw auto;
+  }
+
+  .perfil-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .perfil-fila {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+
+  .perfil-valor {
+    text-align: left;
+  }
+
+  .perfil-accions {
+    flex-direction: column;
+  }
+}

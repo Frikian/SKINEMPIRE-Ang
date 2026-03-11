@@ -1,65 +1,103 @@
-<!-- Header -->
+<!-- ══════════════════ TOP BAR ══════════════════ -->
 <header class="header_index">
-  <img src="assets/conexion_internet.png" width="16" height="16">
-  <p class="color_lion" id="internet">0000</p>
-  <p>EN LÍNEA</p>
-  <img src="assets/usuarios.png" width="16" height="16">
-  <p class="color_russet" id="usuarios">0.000.000</p>
-  <p>USUARIOS</p>
-  <img src="assets/pistola.png" width="30" height="20">
-  <p class="color_lion" id="armas">00.000.000</p>
-  <p>ARMAS</p>
 
-  <div class="header_right_group">
-    <div class="saldo_cuenta">
-      <p>000.000</p>
-      <img src="assets/billete.png" width="20vw">
+  <!-- Estadísticas en vivo -->
+  <div class="header_stats">
+    <div class="stat_item">
+      <img src="assets/conexion_internet.png" alt="Connexió" class="stat_icon">
+      <span class="stat_value color_lion">{{ internet }}</span>
+      <span class="stat_label">EN LÍNIA</span>
     </div>
 
-    <div class="header_right">
-      <a href="https://discord.com/">
-        <img src="assets/logo_discord.png"  class="redes">
+    <div class="stat_separator"></div>
+
+    <div class="stat_item">
+      <img src="assets/usuarios.png" alt="Usuaris" class="stat_icon">
+      <span class="stat_value color_russet">{{ usuarios }}</span>
+      <span class="stat_label">USUARIS</span>
+    </div>
+
+    <div class="stat_separator"></div>
+
+    <div class="stat_item">
+      <img src="assets/pistola.png" alt="Armes" class="stat_icon stat_icon--wide">
+      <span class="stat_value color_lion">{{ armas }}</span>
+      <span class="stat_label">ARMES</span>
+    </div>
+  </div>
+
+  <!-- Zona dreta: saldo + xarxes -->
+  <div class="header_right_group">
+    <div class="saldo_cuenta">
+      <img src="assets/billete.png" alt="Saldo" class="saldo_icon">
+      <span class="saldo_valor">000.000</span>
+    </div>
+
+    <div class="header_redes">
+      <a href="https://discord.com/" target="_blank" title="Discord">
+        <img src="assets/logo_discord.png" class="redes" alt="Discord">
       </a>
-      <a href="https://www.youtube.com/">
-        <img src="assets/logo_youtube.png" class="redes">
+      <a href="https://www.youtube.com/" target="_blank" title="YouTube">
+        <img src="assets/logo_youtube.png" class="redes" alt="YouTube">
       </a>
-      <a href="https://web.telegram.org/">
-        <img src="assets/logo_telegram.png" class="redes">
+      <a href="https://web.telegram.org/" target="_blank" title="Telegram">
+        <img src="assets/logo_telegram.png" class="redes" alt="Telegram">
       </a>
-      <a href="https://www.tiktok.com/">
-        <img src="assets/logo_tiktok.png" class="redes">
+      <a href="https://www.tiktok.com/" target="_blank" title="TikTok">
+        <img src="assets/logo_tiktok.png" class="redes" alt="TikTok">
       </a>
-      <a href="https://www.facebook.com/">
-        <img src="assets/logo_facebook.png" class="redes">
+      <a href="https://www.facebook.com/" target="_blank" title="Facebook">
+        <img src="assets/logo_facebook.png" class="redes" alt="Facebook">
       </a>
-      <a href="https://www.instagram.com/">
-        <img src="assets/logo_instagram.png" class="redes">
+      <a href="https://www.instagram.com/" target="_blank" title="Instagram">
+        <img src="assets/logo_instagram.png" class="redes" alt="Instagram">
       </a>
     </div>
   </div>
+
 </header>
 
-<!-- Navegador -->
+<!-- ══════════════════ NAV BAR ══════════════════ -->
 <nav class="nav_bar">
+
+  <!-- Esquerra: logo + links -->
   <div class="nav_left_group">
     <a routerLink="index" class="nav_skinempire">
-      <img src="assets/logo_skinempire.png" width="27%">
+      <img src="assets/logo_skinempire.png" alt="SkinEmpire" class="nav_logo">
       <h1>SkinEmpire</h1>
     </a>
+
     <div class="nav_links">
       <a routerLink="tienda">Tienda</a>
       <a routerLink="venta">Venta</a>
       <a routerLink="contacto">Contacto</a>
     </div>
   </div>
-  <div class="nav_right_group">
-    @if (nombreUsuario) {
-      <span class="usuario-logueado">Usuari: {{ nombreUsuario }}</span>
-    } @else {
-      <a routerLink="/login" class="login">Log In</a>
-    }
-    <a routerLink="carrito" class="carrito_compra"><img src="assets/carrito_icono.png"></a>
-    <a routerLink="index" class="configuracion_img"><img src="assets/configuracion.png" width="10%"></a>
-  </div>
-</nav>
 
+  <!-- Dreta: usuari + carrito + config -->
+  <div class="nav_right_group">
+
+    <!-- Usuari logat -->
+    @if (nombreUsuario) {
+      <a routerLink="/profile" class="nav_usuario_btn" title="Veure perfil">
+        <img src="assets/usuarios.png" alt="Perfil" class="nav_usuario_icon">
+        <span class="nav_usuario_nom">{{ nombreUsuario }}</span>
+        <span class="nav_usuario_badge">▸ Perfil</span>
+      </a>
+    } @else {
+      <a routerLink="/login" class="nav_login_btn">
+        <img src="assets/usuarios.png" alt="Login" class="nav_usuario_icon">
+        <span>Log In</span>
+      </a>
+    }
+
+    <a routerLink="carrito" class="carrito_compra" title="Carret de compra">
+      <img src="assets/carrito_icono.png" alt="Carret">
+    </a>
+
+    <a routerLink="index" class="configuracion_img" title="Configuració">
+      <img src="assets/configuracion.png" alt="Configuració">
+    </a>
+  </div>
+
+</nav>
