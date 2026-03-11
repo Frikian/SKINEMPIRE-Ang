@@ -105,7 +105,7 @@
   </div>
 
   <div class="card" *ngFor="let skin of skinsFiltradas">
-    <img [src]="skin.imagen" [alt]="skin.nombre">    <div class="card-content">
+    <img src="../assets/pruebaimg.png" [alt]="skin.nombre">    <div class="card-content">
       <h2>{{ skin.nombre }}</h2>
       <div class="price">{{ skin.precio.toFixed(2) }}€</div>
       <div class="estado-container">

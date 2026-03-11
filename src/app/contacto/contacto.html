@@ -51,13 +51,8 @@
       {{ enviando ? 'Enviando...' : 'Enviar' }}
     </button>
 
-    @if (exito) {
-      <p class="feedback-exito">Mensaje enviado correctamente.</p>
-    }
-
-    @if (error) {
-      <p class="feedback-error">Error al enviar. Inténtalo de nuevo.</p>
-    }
+    <p class="feedback-exito" *ngIf="exito"> Mensaje enviado correctamente.</p>
+    <p class="feedback-error" *ngIf="error"> Error al enviar. Inténtalo de nuevo.</p>
   </form>
 </main>
 
