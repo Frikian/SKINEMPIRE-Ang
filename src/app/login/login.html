@@ -2,13 +2,13 @@
 <div class="signup-form">
   <form (submit)="enviarLogin(); $event.preventDefault()">
     <label for="usuari">Usuari</label>
-    <input type="text" name="usuari" (input)="actualizarNombre($event)" id="usuari" placeholder="Guaperes_777" required>
+    <input type="text" name="usuari" id="usuari" placeholder="Guaperes_777" [(ngModel)]="nombrem" required>
 
     <label for="pass">Contrasenya</label>
-    <input type="password" name="pass" id="pass" placeholder="Minim 8 caracters" required>
+    <input type="password" name="pass" id="pass" placeholder="Minim 8 caracters" [(ngModel)]="contrasena"  required>
     <br>
     <br>
-    <input type="submit" value="Inicia sessió" name="login" >
+    <input type="submit" value="Inicia sessió" name="login">
     {{mensaje}}
   </form>
 </div>

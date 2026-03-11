@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import {RouterLink, Router} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import {Usuaris} from '../serveis/usuaris';
+import {HttpClient , HttpClientModule} from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
-  imports: [
+  imports: [HttpClientModule,
     RouterLink,
     FormsModule
   ],
@@ -15,30 +16,32 @@ import {Usuaris} from '../serveis/usuaris';
 export class Login {
   mensaje: string = '';
   nombrem: string = '';
+  contrasena: string = ''
 
-  constructor(private usuarioservice: Usuaris, private router: Router) {
+  constructor(private usuarioservice: Usuaris, private router: Router, private http:HttpClient) {
   }
 
   enviarLogin() {
-    const nombre = (document.querySelector<HTMLInputElement>('input[name="usuari"]')!).value;
-    const password = (document.querySelector<HTMLInputElement>('input[name="pass"]')!).value;
-
-    this.usuarioservice.login({ nombre, password }).subscribe({
-      next: (res: any) => {
-        this.mensaje = `¡Bienvenido, ${res.nombre}!`;
-        this.usuarioservice.setUsuario(res.nombre);
-        setTimeout(() => this.router.navigate(['/index']), 1000);
-      },
-      error: (err) => {
-        this.mensaje = "Credencials incorrectes";
+    this.http.get<any[]>('http://localhost:4020/usuaris').subscribe(data => {
+      let loginCorrecte = false
+      for (const usuari of data) {
+        if (usuari.nom == this.nombrem && usuari.contrasena == this.contrasena){
+          loginCorrecte = true
+          break
+        }
       }
-    });
+      if (loginCorrecte){
+        console.log("esta logged in")
+        this.actualizarNombre();
+      }
+      else {
+        console.log("usuari o contrasenya incorrecta")
+      }
+    })
   }
 
-  actualizarNombre(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input) {
-      this.nombrem = input.value;
-    }
+  actualizarNombre() {
+    this.usuarioservice.setUsuario(this.nombrem);
+    this.router.navigate(['/index']);
   }
 }

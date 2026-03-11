@@ -3,12 +3,14 @@ const cors = require('cors');
 const app = express();
 
 // --- CONFIGURACIÓN NECESARIA ---
-app.use(cors()); // Permite que Angular (puerto 4200) conecte con este servidor
-app.use(express.json()); // Vital para poder leer los datos que envías desde el formulario
-const PORT = 4020; // Asegúrate de que Angular apunte a este puerto (4020)
+app.use(cors());
+app.use(express.json());
+const PORT = 4020;
+
+var admin = require("firebase-admin");
+
 
 // --- FIREBASE ---
-var admin = require("firebase-admin");
 
 const db = admin.firestore();
 
@@ -32,3 +34,16 @@ app.post('/usuaris', async (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
+
+app.get('/usuaris', async (req,res) => {
+  try {
+    const esperaUsuari = await db.collection('usuaris').get();
+    const usuaris = esperaUsuari.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+    res.json(usuaris);
+  }catch (error){
+
+  }
+})

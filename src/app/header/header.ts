@@ -23,11 +23,16 @@ export class Header implements OnInit{
   ngOnInit() {
     this.usuarioService.currentUser$.subscribe(nombre => {
       this.nombreUsuario = nombre;
+    });
+
     this.sub = interval(2000).subscribe(() => {
-      document.getElementById("internet")!.textContent = (Math.floor(Math.random() * (1250 - 1000 + 1)) + 1000).toString()
-      document.getElementById("usuarios")!.textContent = (Math.floor(Math.random() * (1600000 - 1500000 + 1)) + 1500000).toString()
-      document.getElementById("armas")!.textContent = (Math.floor(Math.random() * (1600000 - 1500000 + 1)) + 1500000).toString()
-    })})
+      document.getElementById("internet")!.textContent =
+        (Math.floor(Math.random() * (1250 - 1000 + 1)) + 1000).toString();
+      document.getElementById("usuarios")!.textContent =
+        (Math.floor(Math.random() * (1600000 - 1500000 + 1)) + 1500000).toString();
+      document.getElementById("armas")!.textContent =
+        (Math.floor(Math.random() * (1600000 - 1500000 + 1)) + 1500000).toString();
+    });
   }
 }
 
