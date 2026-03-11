@@ -5,7 +5,7 @@
     <input type="text" name="usuari" id="usuari" placeholder="Guaperes_777" [(ngModel)]="nombrem" required>
 
     <label for="pass">Contrasenya</label>
-    <input type="password" name="pass" id="pass" placeholder="Minim 8 caracters" [(ngModel)]="contrasena"  required>
+    <input type="password" name="pass" id="pass" placeholder="Minim 8 caracters" [(ngModel)]="contrasena" required>
     <br>
     <br>
     <input type="submit" value="Inicia sessió" name="login">
@@ -22,12 +22,8 @@
 
   <h3>
     Contrasenya oblidada?
-    <a routerLink="/login">
+    <a routerLink="/forgot-password">
       <input type="button" value="Restableix-la aqui">
     </a>
   </h3>
-
 </footer>
-
-
-

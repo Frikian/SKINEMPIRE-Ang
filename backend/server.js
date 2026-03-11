@@ -113,6 +113,78 @@ app.post('/api/verify-code', (req, res) => {
   res.status(200).json({ valid: true });
 });
 
+// --- RECUPERACIÓ DE CONTRASENYA ---
+const resetTokens = {};
+
+app.post('/api/forgot-password', async (req, res) => {
+  const { nom, email } = req.body;
+  if (!nom || !email) return res.status(400).json({ error: 'Nom i email són obligatoris.' });
+
+  try {
+    const doc = await db.collection('usuaris').doc(nom).get();
+    if (!doc.exists || doc.data().email !== email) {
+      return res.status(404).json({ error: 'No s\'ha trobat cap usuari amb aquestes dades.' });
+    }
+
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let token = '';
+    for (let i = 0; i < 32; i++) {
+      token += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+
+    resetTokens[token] = { nom, email, expires: Date.now() + 30 * 60 * 1000 };
+
+    const resetLink = `http://localhost:4200/reset-password?token=${token}`;
+
+    const mailOptions = {
+      from: `"SkinEmpire" <${EMAIL_USER}>`,
+      to: email,
+      subject: '[SkinEmpire] Restabliment de contrasenya',
+      html: `
+        <div style="font-family: Arial, sans-serif; background:#323031; color:#E8EBF7; padding:24px; border-radius:8px;">
+          <h2 style="color:#FDEBB7; border-bottom:2px solid #B59356; padding-bottom:8px;">Restabliment de contrasenya</h2>
+          <p>Hola <strong style="color:#FDEBB7;">${nom}</strong>,</p>
+          <p>Has sol·licitat restablir la teva contrasenya. Fes clic al botó següent:</p>
+          <div style="text-align:center; margin:24px 0;">
+            <a href="${resetLink}"
+               style="background:#9e6e16; color:#323031; font-weight:bold; padding:12px 28px;
+                      border-radius:10px; text-decoration:none; font-size:1rem;">
+              Restablir contrasenya
+            </a>
+          </div>
+          <p style="color:#919191; font-size:0.9rem;">Aquest enllaç expira en 30 minuts. Si no has fet aquesta sol·licitud, ignora aquest correu.</p>
+        </div>
+      `,
+    };
+
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ mensaje: 'Correu enviat correctament.' });
+  } catch (error) {
+    console.error('Error en forgot-password:', error);
+    res.status(500).json({ error: 'Error intern del servidor.' });
+  }
+});
+
+app.post('/api/reset-password', async (req, res) => {
+  const { token, novaContrasena } = req.body;
+  const entry = resetTokens[token];
+
+  if (!entry) return res.status(400).json({ error: 'Token invàlid.' });
+  if (Date.now() > entry.expires) {
+    delete resetTokens[token];
+    return res.status(400).json({ error: 'El token ha expirat.' });
+  }
+
+  try {
+    await db.collection('usuaris').doc(entry.nom).update({ contrasena: novaContrasena });
+    delete resetTokens[token];
+    res.status(200).json({ mensaje: 'Contrasenya actualitzada correctament.' });
+  } catch (error) {
+    console.error('Error en reset-password:', error);
+    res.status(500).json({ error: 'Error intern del servidor.' });
+  }
+});
+
 // --- FIREBASE ---
 var admin = require("firebase-admin");
 
@@ -190,8 +262,6 @@ app.patch('/usuaris/:nom', async (req, res) => {
 
     const dadesActuals = docActual.data();
 
-    // Si el nom canvia cal crear un nou doc i esborrar l'antic
-    // (el doc ID a Firestore és el nom d'usuari)
     if (nouNom && nouNom !== nomActual) {
       const refNou = db.collection('usuaris').doc(nouNom);
       const docNou = await refNou.get();
@@ -213,7 +283,6 @@ app.patch('/usuaris/:nom', async (req, res) => {
       });
     }
 
-    // Només actualitzar email
     const actualitzacio = {};
     if (email) actualitzacio.email = email;
     await refActual.update(actualitzacio);

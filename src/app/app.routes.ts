@@ -12,6 +12,8 @@ import {Tienda} from './tienda/tienda';
 import {Venta} from './venta/venta';
 import {VerifyEmail} from './verify-email/verify-email';
 import { Profile } from './profile/profile';
+import { ForgotPassword } from './forgot-password/forgot-password';
+import { ResetPassword } from './reset-password/reset-password';
 
 
 export const routes: Routes = [
@@ -28,5 +30,7 @@ export const routes: Routes = [
   {path: 'tienda', component: Tienda},
   {path: 'venta', component: Venta},
   {path: 'verify-email', component: VerifyEmail},
-  {path: 'profile', component: Profile}
+  {path: 'profile', component: Profile},
+  { path: 'forgot-password', component: ForgotPassword },
+  { path: 'reset-password', component: ResetPassword },
 ];
