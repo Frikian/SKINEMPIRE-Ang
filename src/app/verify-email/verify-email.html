@@ -1,0 +1,39 @@
+<div class="formulari-sencer">
+  <h1>Verifica el teu correu</h1>
+  <div class="signup-form">
+    <p class="verify-info">
+      Hem enviat un codi de 6 dígits a <strong>{{ pendingUser?.email }}</strong>.
+      Introdueix-lo aquí per completar el registre.
+    </p>
+    <form>
+      <label for="codi">Codi de verificació</label>
+      <input
+        [(ngModel)]="code"
+        type="text"
+        name="codi"
+        id="codi"
+        placeholder="Ex: A3X7K2"
+        maxlength="6"
+        autocomplete="off"
+        class="code-input"
+      >
+
+      <input type="button" value="Verificar" (click)="verificar()">
+      <input type="button" value="Tornar a enviar el correu" (click)="reenviarCodi()" class="btn-secondary">
+
+      <p class="intentos-badge" *ngIf="intentos < 3 && intentos > 0">
+        {{ intentos }} intent(s) restant(s)
+      </p>
+      <p class="mensaje-verify">{{ mensaje }}</p>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <h3>
+    Ja tens compte?
+    <a routerLink="/login">
+      <input type="button" value="Inicia sessió aqui">
+    </a>
+  </h3>
+</footer>

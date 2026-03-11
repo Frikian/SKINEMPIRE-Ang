@@ -54,7 +54,64 @@ app.post('/api/contacto', async (req, res) => {
   }
 });
 
+// --- VERIFICACIÓN DE CORREO ---
+const verificationCodes = {};
 
+app.post('/api/send-verification', async (req, res) => {
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ error: 'Email requerido' });
+
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let code = '';
+  for (let i = 0; i < 6; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+
+  verificationCodes[email] = { code, expires: Date.now() + 10 * 60 * 1000 };
+
+  const mailOptions = {
+    from: `"SkinEmpire" <${EMAIL_USER}>`,
+    to: email,
+    subject: '[SkinEmpire] Codi de verificació',
+    html: `
+      <div style="font-family: Arial, sans-serif; background:#323031; color:#E8EBF7; padding:24px; border-radius:8px;">
+        <h2 style="color:#FDEBB7; border-bottom:2px solid #B59356; padding-bottom:8px;">Verificació de compte</h2>
+        <p>El teu codi de verificació és:</p>
+        <div style="font-size:2.5rem; font-weight:bold; letter-spacing:0.4rem; color:#FDEBB7;
+                    background:#262525; padding:16px; border-radius:8px;
+                    border:2px solid #B59356; text-align:center; margin:16px 0;">
+          ${code}
+        </div>
+        <p style="color:#919191; font-size:0.9rem;">El codi expira en 10 minuts.</p>
+      </div>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ mensaje: 'Codi enviat correctament.' });
+  } catch (error) {
+    console.error('Error al enviar codi:', error);
+    res.status(500).json({ error: 'Error al enviar el codi.' });
+  }
+});
+
+app.post('/api/verify-code', (req, res) => {
+  const { email, code } = req.body;
+  const entry = verificationCodes[email];
+
+  if (!entry) return res.status(400).json({ valid: false, error: 'No hi ha codi per aquest email.' });
+  if (Date.now() > entry.expires) {
+    delete verificationCodes[email];
+    return res.status(400).json({ valid: false, error: 'El codi ha expirat.' });
+  }
+  if (entry.code !== code.toUpperCase()) {
+    return res.status(400).json({ valid: false, error: 'Codi incorrecte.' });
+  }
+
+  delete verificationCodes[email];
+  res.status(200).json({ valid: true });
+});
 
 // --- FIREBASE ---
 var admin = require("firebase-admin");
@@ -65,16 +122,11 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
-// --- FIREBASE ---
-
 const db = admin.firestore();
 
 // --- RUTAS ---
 app.post('/usuaris', async (req, res) => {
   const { nom, email, contrasena } = req.body;
-
-
-
 
   try {
     const ref = db.collection('usuaris').doc(nom);
@@ -91,9 +143,7 @@ app.post('/usuaris', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
-
-app.get('/usuaris', async (req,res) => {
+app.get('/usuaris', async (req, res) => {
   try {
     const esperaUsuari = await db.collection('usuaris').get();
     const usuaris = esperaUsuari.docs.map(doc => ({
@@ -101,7 +151,9 @@ app.get('/usuaris', async (req,res) => {
       ...doc.data()
     }));
     res.json(usuaris);
-  }catch (error){
+  } catch (error) {
 
   }
-})
+});
+
+app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));

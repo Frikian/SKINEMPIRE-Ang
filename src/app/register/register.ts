@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
@@ -16,28 +16,25 @@ export class Register {
   contrasena: string = "";
   mensaje: string = "";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   enviarRegistro() {
     if (!this.nom || !this.email || !this.contrasena) {
-      this.mensaje = "Por favor, rellena todos los campos";
+      this.mensaje = "Per favor, omple tots els camps";
       return;
     }
 
-    const datosUsuario = {
-      nom: this.nom,
-      email: this.email,
-      contrasena: this.contrasena
-    };
-
-    this.http.post('http://localhost:4020/usuaris', datosUsuario).subscribe({
-      next: (res: any) => {
-        this.mensaje = "¡Usuario " + this.nom + " guardado en Firebase con éxito!";
-        console.log('Resposta directa:', res);
+    this.http.post('http://localhost:4020/api/send-verification', { email: this.email }).subscribe({
+      next: () => {
+        sessionStorage.setItem('pendingUser', JSON.stringify({
+          nom: this.nom,
+          email: this.email,
+          contrasena: this.contrasena
+        }));
+        this.router.navigate(['/verify-email']);
       },
-      error: (err) => {
-        this.mensaje = "Error: " + (err.error?.mensaje || "No se pudo conectar con el servidor");
-        console.error('Error en la petición:', err);
+      error: () => {
+        this.mensaje = "Error al enviar el codi de verificació. Torna-ho a intentar.";
       }
     });
   }

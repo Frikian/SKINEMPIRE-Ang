@@ -10,6 +10,7 @@ import {Register} from './register/register';
 import {TerminosYCondiciones} from './terminos-y-condiciones/terminos-y-condiciones';
 import {Tienda} from './tienda/tienda';
 import {Venta} from './venta/venta';
+import {VerifyEmail} from './verify-email/verify-email';
 
 
 export const routes: Routes = [
@@ -24,5 +25,6 @@ export const routes: Routes = [
   {path: 'register', component: Register},
   {path: 'terminos-y-condiciones', component: TerminosYCondiciones},
   {path: 'tienda', component: Tienda},
-  {path: 'venta', component: Venta}
+  {path: 'venta', component: Venta},
+  {path: 'verify-email', component: VerifyEmail}
 ];
