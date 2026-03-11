@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ContactoService } from '../serveis/contacto';
@@ -19,11 +19,7 @@ export class Contacto {
   exito = false;
   error = false;
 
-  constructor(
-    private contactoService: ContactoService,
-    private cdr: ChangeDetectorRef,
-    private ngZone: NgZone
-  ) {}
+  constructor(private contactoService: ContactoService) {}
 
   enviarFormulario() {
     if (!this.nombre || !this.email || !this.motivo || !this.mensaje) return;
@@ -41,20 +37,16 @@ export class Contacto {
       })
       .subscribe({
         next: () => {
-          this.ngZone.run(() => {
-            this.exito = true;
-            this.enviando = false;
-            this.nombre = '';
-            this.email = '';
-            this.motivo = '';
-            this.mensaje = '';
-          });
+          this.exito = true;
+          this.enviando = false;
+          this.nombre = '';
+          this.email = '';
+          this.motivo = '';
+          this.mensaje = '';
         },
         error: () => {
-          this.ngZone.run(() => {
-            this.error = true;
-            this.enviando = false;
-          });
+          this.error = true;
+          this.enviando = false;
         },
       });
   }
