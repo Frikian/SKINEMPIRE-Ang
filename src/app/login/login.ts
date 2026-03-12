@@ -23,9 +23,9 @@ export class Login {
   }
 
   enviarLogin() {
-    this.http.get<any[]>('http://localhost:4020/usuaris').subscribe(data => {
+    this.http.get<any[]>('http://localhost:4020/usuaris').subscribe(usuaris => {
       let loginCorrecte = false
-      for (const usuari of data) {
+      for (const usuari of usuaris) {
         if (usuari.nom == this.nombrem && usuari.contrasena == this.contrasena){
           loginCorrecte = true
           break

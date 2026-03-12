@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Usuaris } from '../serveis/usuaris';
+import {ChangeDetectorRef} from '@angular/core';
 
 @Component({
   selector: 'app-profile',
@@ -30,7 +31,8 @@ export class Profile implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private usuarisService: Usuaris
+    private usuarisService: Usuaris,
+    private cgf: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -50,6 +52,7 @@ export class Profile implements OnInit {
         this.emailActual = usuari.email;
         this.resetFormulari();
         this.carregant = false;
+        this.cgf.detectChanges()
       },
       error: () => {
         this.missatge      = 'Error en carregar les dades del perfil.';
