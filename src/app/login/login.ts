@@ -16,7 +16,8 @@ import {HttpClient , HttpClientModule} from '@angular/common/http';
 export class Login {
   mensaje: string = '';
   nombrem: string = '';
-  contrasena: string = ''
+  contrasena: string = '';
+  error: string = '';
 
   constructor(private usuarioservice: Usuaris, private router: Router, private http:HttpClient) {
   }
@@ -32,10 +33,12 @@ export class Login {
       }
       if (loginCorrecte){
         console.log("esta logged in")
+        this.error = 'Loggineant'
         this.actualizarNombre();
       }
       else {
         console.log("usuari o contrasenya incorrecta")
+        this.error = 'Usuari o contrasenya incorrecte'
       }
     })
   }
