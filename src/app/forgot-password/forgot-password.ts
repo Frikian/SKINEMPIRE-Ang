@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -17,7 +17,7 @@ export class ForgotPassword {
   mensaje: string = '';
   enviat: boolean = false;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private cgf: ChangeDetectorRef) {}
 
   enviarSolicitud() {
     if (!this.nom || !this.email) {
@@ -32,9 +32,11 @@ export class ForgotPassword {
       next: () => {
         this.enviat = true;
         this.mensaje = 'Correu enviat! Comprova la teva safata d\'entrada.';
+        this.cgf.detectChanges();
       },
       error: (err) => {
         this.mensaje = err.error?.error || 'No s\'ha trobat cap usuari amb aquestes dades.';
+        this.cgf.detectChanges();
       }
     });
   }

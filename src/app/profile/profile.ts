@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Usuaris } from '../serveis/usuaris';
-import {ChangeDetectorRef} from '@angular/core';
 
 @Component({
   selector: 'app-profile',
@@ -14,15 +13,12 @@ import {ChangeDetectorRef} from '@angular/core';
   styleUrl: './profile.css'
 })
 export class Profile implements OnInit {
-  // Dades actuals llegides de Firestore
   nomActual: string = '';
   emailActual: string = '';
 
-  // Camps del formulari d'edició
   nouNom: string = '';
   nouEmail: string = '';
 
-  // Estat UI
   missatge: string = '';
   tipusMissatge: 'ok' | 'error' | '' = '';
   editant: boolean = false;
@@ -36,7 +32,6 @@ export class Profile implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Obtenim el nom de la sessió (BehaviorSubject o sessionStorage)
     const nom = this.usuarisService.currentUser$ && sessionStorage.getItem('currentUserNom');
     if (!nom) {
       this.router.navigate(['/login']);
@@ -45,19 +40,19 @@ export class Profile implements OnInit {
 
     this.carregant = true;
 
-    // Carreguem les dades reals des de Firestore via backend
     this.usuarisService.getUsuariByNom(nom).subscribe({
       next: (usuari) => {
         this.nomActual   = usuari.nom;
         this.emailActual = usuari.email;
         this.resetFormulari();
         this.carregant = false;
-        this.cgf.detectChanges()
+        this.cgf.detectChanges();
       },
       error: () => {
         this.missatge      = 'Error en carregar les dades del perfil.';
         this.tipusMissatge = 'error';
         this.carregant     = false;
+        this.cgf.detectChanges();
       }
     });
   }
@@ -93,7 +88,6 @@ export class Profile implements OnInit {
       return;
     }
 
-    // Sense canvis
     if (this.nouNom.trim() === this.nomActual && this.nouEmail.trim() === this.emailActual) {
       this.editant = false;
       return;
@@ -102,7 +96,6 @@ export class Profile implements OnInit {
     this.carregant = true;
     this.missatge  = '';
 
-    // Escrivim els canvis a Firestore via backend
     this.http.patch<any>(`http://localhost:4020/usuaris/${this.nomActual}`, {
       nouNom: this.nouNom.trim(),
       email:  this.nouEmail.trim(),
@@ -110,19 +103,18 @@ export class Profile implements OnInit {
       next: (res) => {
         this.nomActual   = res.nom;
         this.emailActual = res.email;
-
-        // Si el nom ha canviat, actualitzem la sessió
         this.usuarisService.setUsuario(res.nom);
-
         this.missatge      = 'Perfil actualitzat correctament!';
         this.tipusMissatge = 'ok';
         this.editant       = false;
         this.carregant     = false;
+        this.cgf.detectChanges();
       },
       error: (err) => {
         this.missatge      = err.error?.mensaje ?? 'Error en actualitzar el perfil.';
         this.tipusMissatge = 'error';
         this.carregant     = false;
+        this.cgf.detectChanges();
       }
     });
   }
