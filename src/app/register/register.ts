@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -16,7 +16,7 @@ export class Register {
   contrasena: string = "";
   mensaje: string = "";
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private cgf: ChangeDetectorRef) {}
 
   enviarRegistro() {
     if (!this.nom || !this.email || !this.contrasena) {
@@ -35,6 +35,7 @@ export class Register {
       },
       error: () => {
         this.mensaje = "Error al enviar el codi de verificació. Torna-ho a intentar.";
+        this.cgf.detectChanges();
       }
     });
   }

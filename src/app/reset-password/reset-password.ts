@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -21,7 +21,8 @@ export class ResetPassword implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cgf: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -29,6 +30,7 @@ export class ResetPassword implements OnInit {
     if (!this.token) {
       this.mensaje = 'Enllaç invàlid. Sol·licita un nou correu de restabliment.';
     }
+    this.cgf.detectChanges();
   }
 
   canviarContrasena() {
@@ -51,10 +53,12 @@ export class ResetPassword implements OnInit {
     }).subscribe({
       next: () => {
         this.completat = true;
+        this.cgf.detectChanges();
         setTimeout(() => this.router.navigate(['/login']), 2500);
       },
       error: (err) => {
         this.mensaje = err.error?.error || 'Error en restablir la contrasenya.';
+        this.cgf.detectChanges();
       }
     });
   }

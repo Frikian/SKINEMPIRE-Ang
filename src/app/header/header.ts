@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Usuaris } from '../serveis/usuaris';
 import { interval, Subscription } from 'rxjs';
@@ -20,11 +20,12 @@ export class Header implements OnInit, OnDestroy {
   usuarios: string = '1.500.000';
   armas: string = '1.500.000';
 
-  constructor(public usuarioService: Usuaris) {}
+  constructor(public usuarioService: Usuaris, private cgf: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.userSub = this.usuarioService.currentUser$.subscribe(nombre => {
       this.nombreUsuario = nombre;
+      this.cgf.detectChanges();
     });
 
     this.sub = interval(2000).subscribe(() => {
