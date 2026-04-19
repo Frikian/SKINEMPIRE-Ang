@@ -98,16 +98,24 @@
   </div>
 </section>
 
-<!-- Contenedor de Productos -->
 <main class="productos-container">
   <div class="card agregar">
     <button class="btnAgregar"><p>+</p></button>
   </div>
 
   <div class="card" *ngFor="let skin of skinsFiltradas">
-    <img src="../assets/pruebaimg.png" [alt]="skin.nombre">    <div class="card-content">
+    <div *ngIf="skin.oferta" class="badge-oferta">OFERTA</div>
+
+    <img src="../assets/pruebaimg.png" [alt]="skin.nombre">
+    <div class="card-content">
       <h2>{{ skin.nombre }}</h2>
-      <div class="price">{{ skin.precio.toFixed(2) }}€</div>
+
+      <div class="price" *ngIf="!skin.oferta">{{ skin.precio.toFixed(2) }}€</div>
+      <div class="price oferta-price" *ngIf="skin.oferta">
+        <span class="precio-original">{{ skin.precioOriginal.toFixed(2) }}€</span>
+        {{ skin.precio.toFixed(2) }}€
+      </div>
+
       <div class="estado-container">
         <span class="estado">{{ skin.estado }}</span>
         <span class="rareza" [ngClass]="getRarezaClass(skin.rareza)">{{ skin.rareza }}</span>
@@ -117,7 +125,6 @@
     </div>
   </div>
 
-  <!-- Mensaje cuando no hay resultados -->
   <div class="no-resultados" *ngIf="skinsFiltradas.length === 0">
     <h3>No se encontraron productos</h3>
     <p>Intenta ajustar los filtros para ver más resultados</p>

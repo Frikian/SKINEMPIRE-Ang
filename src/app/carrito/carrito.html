@@ -40,7 +40,8 @@
       <p>Subtotal: <span>{{ getSubtotal().toFixed(2) }}€</span></p>
       <p>Tarifa (5%): <span>{{ getTarifa().toFixed(2) }}€</span></p>
       <p class="total">Total: <span>{{ getTotalFinal().toFixed(2) }}€</span></p>
-      <button class="btn2">Procedir amb el pagament</button>
-    </div>
+      <button class="btn2" (click)="processarPagament()">Procedir amb el pagament</button>
+      <p *ngIf="missatgeCompra" style="color: #4caf50; margin-top: 8px;">{{ missatgeCompra }}</p>
+      <p *ngIf="errorCompra" style="color: #e53935; margin-top: 8px;">{{ errorCompra }}</p>    </div>
   </div>
 </main>

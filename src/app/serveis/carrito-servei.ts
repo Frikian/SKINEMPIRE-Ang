@@ -4,56 +4,58 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class CarritoServei {
-  cantidadProductos: number[] = [0, 0, 0, 0, 0, 0];
+  cantidadProductos: number[] = [0, 0, 0, 0, 0];
 
   productos = [
     {
       id: 1,
       nombre: 'AWP | Dragon Lore',
-      precio: 1650.50,
+      precio: 1650,
+      precioOriginal: 1650,
       estado: 'Factory New',
       rareza: 'C',
-      rarezaClass: 'comun'
+      rarezaClass: 'comun',
+      oferta: false
     },
     {
       id: 2,
       nombre: 'AWP | Dragon Lore',
-      precio: 1650.50,
-      estado: 'Factory New',
+      precio: 1155,          // 30% descuento
+      precioOriginal: 1650,
+      estado: 'Minimal Wear',
       rareza: 'P.C',
-      rarezaClass: 'pococomun'
+      rarezaClass: 'pococomun',
+      oferta: true
     },
     {
       id: 3,
       nombre: 'AWP | Dragon Lore',
-      precio: 1650.50,
-      estado: 'Factory New',
+      precio: 1650,
+      precioOriginal: 1650,
+      estado: 'Field-Tested',
       rareza: 'R',
-      rarezaClass: 'raro'
+      rarezaClass: 'raro',
+      oferta: false
     },
     {
       id: 4,
       nombre: 'AWP | Dragon Lore',
-      precio: 1650.50,
-      estado: 'Factory New',
+      precio: 990,           // 40% descuento
+      precioOriginal: 1650,
+      estado: 'Well-Worn',
       rareza: 'M',
-      rarezaClass: 'mitico'
+      rarezaClass: 'mitico',
+      oferta: true
     },
     {
       id: 5,
       nombre: 'AWP | Dragon Lore',
-      precio: 1650.50,
-      estado: 'Factory New',
+      precio: 1650,
+      precioOriginal: 1650,
+      estado: 'Battle-Scarred',
       rareza: 'L',
-      rarezaClass: 'legendario'
-    },
-    {
-      id: 6,
-      nombre: 'AWP | Dragon Lore',
-      precio: 1650.50,
-      estado: 'Factory New',
-      rareza: 'A',
-      rarezaClass: 'ancestral'
+      rarezaClass: 'legendario',
+      oferta: false
     }
   ];
 
@@ -83,5 +85,21 @@ export class CarritoServei {
 
   getCantidadTotal(): number {
     return this.cantidadProductos.reduce((sum, cantidad) => sum + cantidad, 0);
+  }
+
+  // Devuelve los productos que están en el carrito con su cantidad
+  getProductosParaCompra() {
+    return this.productos
+      .filter((_, i) => this.cantidadProductos[i] > 0)
+      .map(p => ({
+        id_producte: p.id,
+        cuantitat: this.cantidadProductos[p.id - 1],
+        preu_unitari: p.precio,
+        oferta: p.oferta ? 1 : 0
+      }));
+  }
+
+  vaciarCarrito(): void {
+    this.cantidadProductos = this.cantidadProductos.map(() => 0);
   }
 }

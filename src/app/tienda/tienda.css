@@ -627,3 +627,31 @@ body {
     font-size: 22px;
   }
 }
+.badge-oferta {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #e53935;
+  color: white;
+  font-weight: bold;
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+  z-index: 2;
+}
+
+.card {
+  position: relative; /* necesario para el badge */
+}
+
+.precio-original {
+  text-decoration: line-through;
+  color: #919191;
+  font-size: 0.9rem;
+  margin-right: 6px;
+}
+
+.oferta-price {
+  color: #e53935;
+}

@@ -20,29 +20,34 @@ export class Tienda {
   productes: number[]
   skins = [
     {
-      id: 1, nombre: 'AWP | Dragon Lore', precio: 1650, estado: 'Factory New', rareza: 'C',
+      id: 1, nombre: 'AWP | Dragon Lore', precio: 1650, precioOriginal: 1650,
+      estado: 'Factory New', rareza: 'C', oferta: false,
       imagen: 'assets/pruebaimg.png',
-      descripcion: 'Skin con diseño táctico en rojo y negro. Desgaste mínimo, ideal para coleccionistas.'
+      descripcion: 'Skin con diseño táctico en rojo y negro.'
     },
     {
-      id: 2, nombre: 'AWP | Dragon Lore', precio: 1650, estado: 'Minimal Wear', rareza: 'P.C',
+      id: 2, nombre: 'AWP | Dragon Lore', precio: 1155, precioOriginal: 1650,
+      estado: 'Minimal Wear', rareza: 'P.C', oferta: true,
       imagen: 'assets/pruebaimg.png',
-      descripcion: 'Skin con diseño táctico en rojo y negro. Desgaste mínimo, ideal para coleccionistas.'
+      descripcion: 'Skin con diseño táctico en rojo y negro.'
     },
     {
-      id: 3, nombre: 'AWP | Dragon Lore', precio: 1650, estado: 'Field-Tested', rareza: 'R',
+      id: 3, nombre: 'AWP | Dragon Lore', precio: 1650, precioOriginal: 1650,
+      estado: 'Field-Tested', rareza: 'R', oferta: false,
       imagen: 'assets/pruebaimg.png',
-      descripcion: 'Skin con diseño táctico en rojo y negro. Desgaste mínimo, ideal para coleccionistas.'
+      descripcion: 'Skin con diseño táctico en rojo y negro.'
     },
     {
-      id: 4, nombre: 'AWP | Dragon Lore', precio: 1650, estado: 'Well-Worn', rareza: 'M',
+      id: 4, nombre: 'AWP | Dragon Lore', precio: 990, precioOriginal: 1650,
+      estado: 'Well-Worn', rareza: 'M', oferta: true,
       imagen: 'assets/pruebaimg.png',
-      descripcion: 'Skin con diseño táctico en rojo y negro. Desgaste mínimo, ideal para coleccionistas.'
+      descripcion: 'Skin con diseño táctico en rojo y negro.'
     },
     {
-      id: 5, nombre: 'AWP | Dragon Lore', precio: 1650, estado: 'Battle-Scarred', rareza: 'L',
+      id: 5, nombre: 'AWP | Dragon Lore', precio: 1650, precioOriginal: 1650,
+      estado: 'Battle-Scarred', rareza: 'L', oferta: false,
       imagen: 'assets/pruebaimg.png',
-      descripcion: 'Skin con diseño táctico en rojo y negro. Desgaste mínimo, ideal para coleccionistas.'
+      descripcion: 'Skin con diseño táctico en rojo y negro.'
     }
   ];
 

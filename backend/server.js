@@ -2,6 +2,16 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
 const app = express();
+const mysql = require('mysql2/promise');
+
+const pool = mysql.createPool({
+  host: 'localhost',
+  user: 'root',
+  password: 'patata',
+  database: 'skinempire',
+  waitForConnections: true,
+  connectionLimit: 10,
+});
 
 // --- CONFIGURACIÓN NECESARIA ---
 app.use(cors());
@@ -297,5 +307,44 @@ app.patch('/usuaris/:nom', async (req, res) => {
     res.status(500).json({ mensaje: 'Error intern del servidor.' });
   }
 });
+
+
+
+app.post('/api/compra', async (req, res) => {
+  const { nom_usuari, productes } = req.body;
+
+  if (!nom_usuari || !productes || productes.length === 0) {
+    return res.status(400).json({ error: 'Dades incorrectes.' });
+  }
+
+  const conn = await pool.getConnection();
+  try {
+    await conn.beginTransaction();
+
+    const dataAvui = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+    const [resCompra] = await conn.execute(
+      'INSERT INTO compra (nom_usuari, data_compra) VALUES (?, ?)',
+      [nom_usuari, dataAvui]
+    );
+    const id_compra = resCompra.insertId;
+
+    for (const p of productes) {
+      await conn.execute(
+        'INSERT INTO productes_compra (id_compra, id_producte, cuantitat, preu_unitari, oferta) VALUES (?, ?, ?, ?, ?)',
+        [id_compra, p.id_producte, p.cuantitat, p.preu_unitari, p.oferta]
+      );
+    }
+
+    await conn.commit();
+    res.status(200).json({ mensaje: 'Compra registrada correctament.', id_compra });
+  } catch (error) {
+    await conn.rollback();
+    console.error('Error en /api/compra:', error);
+    res.status(500).json({ error: 'Error intern del servidor.' });
+  } finally {
+    conn.release();
+  }
+});
+
 
 app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
