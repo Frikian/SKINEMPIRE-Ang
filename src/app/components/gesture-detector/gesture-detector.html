@@ -1,0 +1,25 @@
+<div class="gesture-overlay" [class.minimized]="!isVisible">
+
+  <div class="overlay-header">
+    <span>🎭 Detector de gestos</span>
+    <button (click)="toggleVisibility()">{{ isVisible ? '−' : '+' }}</button>
+  </div>
+
+  <div class="overlay-body" *ngIf="isVisible">
+    <div id="webcam-container"></div>
+
+    <div class="status" *ngIf="isRunning">
+      <span [class.bad]="BAD_GESTURES.includes(currentLabel)">
+        {{ currentLabel }} — {{ confidence }}%
+      </span>
+    </div>
+
+    <button (click)="startDetection()" *ngIf="!isRunning">
+      📷 Activar cámara
+    </button>
+    <button (click)="stopDetection()" *ngIf="isRunning">
+      ⏹ Detener
+    </button>
+  </div>
+
+</div>

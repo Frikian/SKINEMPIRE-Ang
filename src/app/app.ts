@@ -6,10 +6,11 @@ import { Footer } from './footer/footer';
 import { Usuaris } from './serveis/usuaris';
 import { CarritoServei } from './serveis/carrito-servei';
 import { HttpClient } from '@angular/common/http';
+import { GestureDetectorComponent } from './components/gesture-detector/gesture-detector';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Index, Header, Footer],
+  imports: [RouterOutlet, Index, Header, Footer, GestureDetectorComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -75,5 +76,9 @@ export class App implements OnInit {
       'C': 'comun', 'P.C': 'pococomun', 'R': 'raro', 'M': 'mitico', 'L': 'legendario', 'A': 'ancestral'
     };
     return clases[rareza] || '';
+  }
+
+  onBadGesture(gesture: string) {
+    alert(`Gesto inapropiado detectado: ${gesture}`);
   }
 }
