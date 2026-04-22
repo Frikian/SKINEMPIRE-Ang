@@ -1,24 +1,19 @@
 <!-- ══════════════════ TOP BAR ══════════════════ -->
 <header class="header_index">
 
-  <!-- Estadísticas en vivo -->
   <div class="header_stats">
     <div class="stat_item">
       <img src="assets/conexion_internet.png" alt="Connexió" class="stat_icon">
       <span class="stat_value color_lion">{{ internet }}</span>
       <span class="stat_label">EN LÍNIA</span>
     </div>
-
     <div class="stat_separator"></div>
-
     <div class="stat_item">
       <img src="assets/usuarios.png" alt="Usuaris" class="stat_icon">
       <span class="stat_value color_russet">{{ usuarios }}</span>
       <span class="stat_label">USUARIS</span>
     </div>
-
     <div class="stat_separator"></div>
-
     <div class="stat_item">
       <img src="assets/pistola.png" alt="Armes" class="stat_icon stat_icon--wide">
       <span class="stat_value color_lion">{{ armas }}</span>
@@ -26,13 +21,11 @@
     </div>
   </div>
 
-  <!-- Zona dreta: saldo + xarxes -->
   <div class="header_right_group">
     <div class="saldo_cuenta">
       <img src="assets/billete.png" alt="Saldo" class="saldo_icon">
       <span class="saldo_valor">000.000</span>
     </div>
-
     <div class="header_redes">
       <a href="https://discord.com/" target="_blank" title="Discord">
         <img src="assets/logo_discord.png" class="redes" alt="Discord">
@@ -60,13 +53,11 @@
 <!-- ══════════════════ NAV BAR ══════════════════ -->
 <nav class="nav_bar">
 
-  <!-- Esquerra: logo + links -->
   <div class="nav_left_group">
     <a routerLink="index" class="nav_skinempire">
       <img src="assets/logo_skinempire.png" alt="SkinEmpire" class="nav_logo">
       <h1>SkinEmpire</h1>
     </a>
-
     <div class="nav_links">
       <a routerLink="tienda">Tienda</a>
       <a routerLink="venta">Venta</a>
@@ -74,10 +65,8 @@
     </div>
   </div>
 
-  <!-- Dreta: usuari + carrito + config -->
   <div class="nav_right_group">
 
-    <!-- Usuari logat -->
     @if (nombreUsuario) {
       <a routerLink="/profile" class="nav_usuario_btn" title="Veure perfil">
         <img src="assets/usuarios.png" alt="Perfil" class="nav_usuario_icon">
@@ -95,9 +84,12 @@
       <img src="assets/carrito_icono.png" alt="Carret">
     </a>
 
-    <a routerLink="index" class="configuracion_img" title="Configuració">
-      <img src="assets/configuracion.png" alt="Configuració">
-    </a>
+    @if (esAdmin) {
+      <a routerLink="/admin" class="configuracion_img" title="Administrador">
+        <img src="assets/configuracion.png" alt="Administració">
+      </a>
+    }
+
   </div>
 
 </nav>

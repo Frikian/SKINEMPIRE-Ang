@@ -1,0 +1,123 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background-color: #323031;
+  color: #E8EBF7;
+}
+
+.admin_container {
+  max-width: 1200px;
+  margin: 3vw auto;
+  padding: 0 2vw;
+}
+
+.admin_title {
+  font-size: 2.5rem;
+  color: #FDEBB7;
+  border-bottom: 2px solid #B59356;
+  padding-bottom: 0.8rem;
+  margin-bottom: 2rem;
+  letter-spacing: 0.05em;
+}
+
+.admin_section h2 {
+  font-size: 1.5rem;
+  color: #B59356;
+  margin-bottom: 1.5rem;
+}
+
+.admin_table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #262525;
+  border: 2px solid #B59356;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.admin_table thead {
+  background-color: #804410;
+}
+
+.admin_table thead th {
+  padding: 1rem 1.2rem;
+  text-align: left;
+  color: #FDEBB7;
+  font-weight: bold;
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+}
+
+.admin_table tbody tr {
+  border-bottom: 1px solid rgba(181, 147, 86, 0.2);
+  transition: background-color 0.2s ease;
+}
+
+.admin_table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.admin_table tbody tr:hover {
+  background-color: rgba(181, 147, 86, 0.08);
+}
+
+.admin_table tbody td {
+  padding: 0.9rem 1.2rem;
+  color: #C0C0C0;
+  font-size: 0.9rem;
+}
+
+.admin_carregant {
+  color: #B59356;
+  font-size: 1.1rem;
+  text-align: center;
+  padding: 3rem;
+}
+
+.admin_error {
+  color: #e07070;
+  font-size: 1rem;
+  text-align: center;
+  padding: 3rem;
+  background: rgba(224, 112, 112, 0.1);
+  border: 1px solid #e07070;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #323031;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #804410;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9f591d;
+}
+
+@media (max-width: 768px) {
+  .admin_container {
+    padding: 0 4vw;
+  }
+
+  .admin_title {
+    font-size: 1.8rem;
+  }
+
+  .admin_table thead th,
+  .admin_table tbody td {
+    padding: 0.7rem 0.8rem;
+    font-size: 0.8rem;
+  }
+}

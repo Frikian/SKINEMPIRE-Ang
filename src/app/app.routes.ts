@@ -14,7 +14,8 @@ import {VerifyEmail} from './verify-email/verify-email';
 import { Profile } from './profile/profile';
 import { ForgotPassword } from './forgot-password/forgot-password';
 import { ResetPassword } from './reset-password/reset-password';
-
+import { Admin } from './admin/admin';
+import { adminGuard } from './serveis/admin-guard';
 
 export const routes: Routes = [
   {path: 'carrito', component: Carrito},
@@ -33,4 +34,5 @@ export const routes: Routes = [
   {path: 'profile', component: Profile},
   { path: 'forgot-password', component: ForgotPassword },
   { path: 'reset-password', component: ResetPassword },
+  { path: 'admin', component: Admin, canActivate: [adminGuard] },
 ];

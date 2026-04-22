@@ -1,0 +1,40 @@
+<div class="admin_container">
+  <h1 class="admin_title">Panell d'Administrador</h1>
+
+  <section class="admin_section">
+    <h2>Historial de Productes</h2>
+
+    @if (carregant) {
+      <p class="admin_carregant">Carregant...</p>
+    } @else if (error) {
+      <p class="admin_error">{{ error }}</p>
+    } @else {
+      <table class="admin_table">
+        <thead>
+        <tr>
+          <th>ID Compra</th>
+          <th>Usuari</th>
+          <th>Data</th>
+          <th>Producte</th>
+          <th>Quantitat</th>
+          <th>Preu Unitari</th>
+          <th>Oferta</th>
+        </tr>
+        </thead>
+        <tbody>
+          @for (item of historial; track item.id_productes_compra) {
+            <tr>
+              <td>{{ item.id_compra }}</td>
+              <td>{{ item.nom_usuari }}</td>
+              <td>{{ item.data_compra }}</td>
+              <td>{{ item.nom_producte }}</td>
+              <td>{{ item.cuantitat }}</td>
+              <td>{{ item.preu_unitari }} €</td>
+              <td>{{ item.oferta ? 'Sí' : 'No' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </section>
+</div>

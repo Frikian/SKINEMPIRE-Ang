@@ -15,6 +15,7 @@ export class Header implements OnInit, OnDestroy {
   private sub!: Subscription;
   private userSub!: Subscription;
   nombreUsuario: string | null = null;
+  esAdmin: boolean = false;
 
   internet: string = '1000';
   usuarios: string = '1.500.000';
@@ -25,6 +26,7 @@ export class Header implements OnInit, OnDestroy {
   ngOnInit() {
     this.userSub = this.usuarioService.currentUser$.subscribe(nombre => {
       this.nombreUsuario = nombre;
+      this.esAdmin = sessionStorage.getItem('esAdmin') === 'true';
       this.cgf.detectChanges();
     });
 

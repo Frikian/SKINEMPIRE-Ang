@@ -206,6 +206,18 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
+(async () => {
+  const ref = db.collection('usuaris').doc('SkinEmpireAdmin123');
+  const doc = await ref.get();
+  if (!doc.exists) {
+    await ref.set({ nom: 'SkinEmpireAdmin123', email: 'admin@skinempire.com', contrasena: 'Admin1234', esAdmin: true });
+    console.log('Admin creat correctament.');
+  } else if (!doc.data().esAdmin) {
+    await ref.update({ esAdmin: true });
+    console.log('Admin actualitzat correctament.');
+  }
+})();
+
 // --- RUTAS ---
 app.post('/usuaris', async (req, res) => {
   const { nom, email, contrasena } = req.body;
@@ -343,6 +355,42 @@ app.post('/api/compra', async (req, res) => {
     res.status(500).json({ error: 'Error intern del servidor.' });
   } finally {
     conn.release();
+  }
+});
+
+app.get('/usuaris/:nom/admin', async (req, res) => {
+  const { nom } = req.params;
+  try {
+    const doc = await db.collection('usuaris').doc(nom).get();
+    if (!doc.exists) return res.status(404).json({ esAdmin: false });
+    res.json({ esAdmin: doc.data().esAdmin === true });
+  } catch (error) {
+    console.error('Error en GET /usuaris/:nom/admin:', error);
+    res.status(500).json({ esAdmin: false });
+  }
+});
+
+
+app.get('/api/historial', async (req, res) => {
+  try {
+    const [rows] = await pool.execute(`
+      SELECT
+        c.id_compra,
+        c.nom_usuari,
+        c.data_compra,
+        p.nom_producte,
+        pc.cuantitat,
+        pc.preu_unitari,
+        pc.oferta
+      FROM compra c
+      JOIN productes_compra pc ON c.id_compra = pc.id_compra
+      JOIN producte p ON pc.id_producte = p.id_producte
+      ORDER BY c.data_compra DESC, c.id_compra DESC
+    `);
+    res.json(rows);
+  } catch (error) {
+    console.error('Error en GET /api/historial:', error);
+    res.status(500).json({ error: 'Error intern del servidor.' });
   }
 });
 
