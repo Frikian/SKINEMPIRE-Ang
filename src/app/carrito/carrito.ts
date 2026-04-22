@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CarritoServei } from '../serveis/carrito-servei';
@@ -19,7 +19,8 @@ export class Carrito {
   constructor(
     public Scarrito: CarritoServei,
     private usuariServei: Usuaris,
-    private http: HttpClient
+    private http: HttpClient,
+    private cgf: ChangeDetectorRef
   ) {}
 
   getProductosEnCarrito() {
@@ -29,19 +30,22 @@ export class Carrito {
   }
 
   getCantidad(id: number): number {
-    return this.Scarrito.cantidadProductos[id - 1];
+    return this.Scarrito.getCantidadById(id);
   }
 
   restarUnidad(id: number): void {
     this.Scarrito.eliminarUnaUnidad(id);
+    this.cgf.detectChanges();
   }
 
   sumarUnidad(id: number): void {
     this.Scarrito.agregarProducto(id);
+    this.cgf.detectChanges();
   }
 
   eliminarProducto(id: number): void {
     this.Scarrito.eliminarProductoCompleto(id);
+    this.cgf.detectChanges();
   }
 
   getSubtotal(): number {
@@ -76,6 +80,7 @@ export class Carrito {
           this.missatgeCompra = 'Compra realitzada correctament!';
           this.errorCompra = '';
           this.Scarrito.vaciarCarrito();
+          this.cgf.detectChanges();
         },
         error: () => {
           this.errorCompra = 'Error en processar la compra. Torna-ho a intentar.';

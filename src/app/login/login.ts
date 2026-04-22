@@ -50,6 +50,7 @@ export class Login {
 
   actualizarNombre() {
     this.usuarioservice.setUsuario(this.nombrem);
+    this.usuarioservice.cargarCarritoAlLogin(this.nombrem);
     this.router.navigate(['/index']);
   }
 }

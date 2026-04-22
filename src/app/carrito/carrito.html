@@ -24,10 +24,10 @@
         </p>
 
         <div class="cantidad-control">
-          <button class="btn-cantidad" (click)="restarUnidad(producto.id)">-</button>
-          <span class="cantidad-numero">{{ getCantidad(producto.id) }}</span>
-          <button class="btn-cantidad" (click)="sumarUnidad(producto.id)">+</button>
-          <button class="btn-eliminar-producto" (click)="eliminarProducto(producto.id)">
+          <button class="btn-cantidad" (click)="restarUnidad(producto.id_producte)">-</button>
+          <span class="cantidad-numero">{{ getCantidad(producto.id_producte) }}</span>
+          <button class="btn-cantidad" (click)="sumarUnidad(producto.id_producte)">+</button>
+          <button class="btn-eliminar-producto" (click)="eliminarProducto(producto.id_producte)">
             Eliminar
           </button>
         </div>
