@@ -1,0 +1,25 @@
+<div class="dashboard-container">
+  <h1 class="dashboard-title">📊 Panel de Control - Administrador</h1>
+
+  <div *ngIf="carregant" class="carregant">
+    <p>Cargando estadísticas...</p>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="!carregant && !error" class="graficos-container">
+    <!-- Gráfico 1: Ventas por producto -->
+    <div class="grafico-box">
+      <h2>Ventas por Producto</h2>
+      <canvas id="chartVentasProducto"></canvas>
+    </div>
+
+    <!-- Gráfico 2: Oferta vs Sin Oferta -->
+    <div class="grafico-box">
+      <h2>Comparativa: Oferta vs Sin Oferta</h2>
+      <canvas id="chartOfertaVsSinOferta"></canvas>
+    </div>
+  </div>
+</div>

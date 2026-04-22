@@ -16,6 +16,8 @@ import { ForgotPassword } from './forgot-password/forgot-password';
 import { ResetPassword } from './reset-password/reset-password';
 import { Admin } from './admin/admin';
 import { adminGuard } from './serveis/admin-guard';
+import { DashboardAdmin } from './admin/dashboard-admin';
+import { DashboardUsuario } from './estadisticas/dashboard-usuario';
 
 export const routes: Routes = [
   {path: 'carrito', component: Carrito},
@@ -35,4 +37,14 @@ export const routes: Routes = [
   { path: 'forgot-password', component: ForgotPassword },
   { path: 'reset-password', component: ResetPassword },
   { path: 'admin', component: Admin, canActivate: [adminGuard] },
+  {
+    path: 'admin/estadisticas',
+    component: DashboardAdmin,
+    canActivate: [adminGuard]
+  },
+  {
+    path: 'mis-estadisticas',
+    component: DashboardUsuario,
+    canActivate: [/* Tu guard de usuario logueado */]
+  }
 ];

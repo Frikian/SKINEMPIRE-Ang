@@ -16,7 +16,7 @@ Chart.register(...registerables);
 export class DashboardAdmin implements OnInit {
   carregant: boolean = true;
   error: string = '';
-
+  
   private chartVentasPorProducto: Chart | null = null;
   private chartOfertaVsSinOferta: Chart | null = null;
 
@@ -43,7 +43,7 @@ export class DashboardAdmin implements OnInit {
   private crearGraficos(ventasPorProducto: VentaPorDiaProducto[], ofertaVsSinOferta: OfertaVsSinOferta[]) {
     // Gráfico 1: Ventas por día y producto
     this.crearGraficoVentasPorProducto(ventasPorProducto);
-
+    
     // Gráfico 2: Oferta vs Sin Oferta
     this.crearGraficoOfertaVsSinOferta(ofertaVsSinOferta);
   }
@@ -51,7 +51,7 @@ export class DashboardAdmin implements OnInit {
   private crearGraficoVentasPorProducto(datos: VentaPorDiaProducto[]) {
     // Agrupar por producto
     const productosMap = new Map<string, { fechas: string[], cantidades: number[] }>();
-
+    
     datos.forEach(d => {
       if (!productosMap.has(d.producto)) {
         productosMap.set(d.producto, { fechas: [], cantidades: [] });

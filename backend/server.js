@@ -344,3 +344,128 @@ app.delete('/api/carrito/:nom', async (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
+
+app.get('/api/estadisticas/admin', async (req, res) => {
+  try {
+    const ventasPorDiaProducto = await ProductesCompra.findAll({
+      attributes: [
+        [require('sequelize').fn('DATE', require('sequelize').col('compra.data_compra')), 'fecha'],
+        [require('sequelize').col('producte.nom_producte'), 'producto'],
+        [require('sequelize').fn('SUM', require('sequelize').col('cuantitat')), 'cantidad']
+      ],
+      include: [
+        { model: Compra, attributes: [], required: true },
+        { model: Producte, attributes: [], required: true }
+      ],
+      group: [
+        require('sequelize').fn('DATE', require('sequelize').col('compra.data_compra')),
+        'id_producte'
+      ],
+      raw: true,
+      subQuery: false,
+      order: [[require('sequelize').fn('DATE', require('sequelize').col('compra.data_compra')), 'ASC']]
+    });
+
+    const ofertaVsSinOferta = await ProductesCompra.findAll({
+      attributes: [
+        [require('sequelize').fn('DATE', require('sequelize').col('compra.data_compra')), 'fecha'],
+        'oferta',
+        [require('sequelize').fn('SUM', require('sequelize').col('cuantitat')), 'cantidad']
+      ],
+      include: [
+        { model: Compra, attributes: [], required: true }
+      ],
+      group: [
+        require('sequelize').fn('DATE', require('sequelize').col('compra.data_compra')),
+        'oferta'
+      ],
+      raw: true,
+      subQuery: false,
+      order: [[require('sequelize').fn('DATE', require('sequelize').col('compra.data_compra')), 'ASC']]
+    });
+
+    res.json({
+      ventasPorDiaProducto: ventasPorDiaProducto.map(v => ({
+        fecha: v.fecha,
+        producto: v.producto,
+        cantidad: parseInt(v.cantidad)
+      })),
+      ofertaVsSinOferta: ofertaVsSinOferta.map(o => ({
+        fecha: o.fecha,
+        oferta: o.oferta === 1,
+        cantidad: parseInt(o.cantidad)
+      }))
+    });
+  } catch (error) {
+    console.error('Error en GET /api/estadisticas/admin:', error);
+    res.status(500).json({ error: 'Error interno del servidor.' });
+  }
+});
+
+app.get('/api/estadisticas/usuario/:nom', async (req, res) => {
+  const { nom } = req.params;
+  try {
+    const ventasPorDiaProducto = await ProductesCompra.findAll({
+      attributes: [
+        [require('sequelize').fn('DATE', require('sequelize').col('compra.data_compra')), 'fecha'],
+        [require('sequelize').col('producte.nom_producte'), 'producto'],
+        [require('sequelize').fn('SUM', require('sequelize').col('cuantitat')), 'cantidad']
+      ],
+      include: [
+        {
+          model: Compra,
+          attributes: [],
+          required: true,
+          where: { nom_usuari: nom }
+        },
+        { model: Producte, attributes: [], required: true }
+      ],
+      group: [
+        require('sequelize').fn('DATE', require('sequelize').col('compra.data_compra')),
+        'id_producte'
+      ],
+      raw: true,
+      subQuery: false,
+      order: [[require('sequelize').fn('DATE', require('sequelize').col('compra.data_compra')), 'ASC']]
+    });
+
+    const ofertaVsSinOferta = await ProductesCompra.findAll({
+      attributes: [
+        [require('sequelize').fn('DATE', require('sequelize').col('compra.data_compra')), 'fecha'],
+        'oferta',
+        [require('sequelize').fn('SUM', require('sequelize').col('cuantitat')), 'cantidad']
+      ],
+      include: [
+        {
+          model: Compra,
+          attributes: [],
+          required: true,
+          where: { nom_usuari: nom }
+        }
+      ],
+      group: [
+        require('sequelize').fn('DATE', require('sequelize').col('compra.data_compra')),
+        'oferta'
+      ],
+      raw: true,
+      subQuery: false,
+      order: [[require('sequelize').fn('DATE', require('sequelize').col('compra.data_compra')), 'ASC']]
+    });
+
+    res.json({
+      ventasPorDiaProducto: ventasPorDiaProducto.map(v => ({
+        fecha: v.fecha,
+        producto: v.producto,
+        cantidad: parseInt(v.cantidad)
+      })),
+      ofertaVsSinOferta: ofertaVsSinOferta.map(o => ({
+        fecha: o.fecha,
+        oferta: o.oferta === 1,
+        cantidad: parseInt(o.cantidad)
+      }))
+    });
+  } catch (error) {
+    console.error('Error en GET /api/estadisticas/usuario:', error);
+    res.status(500).json({ error: 'Error interno del servidor.' });
+  }
+});

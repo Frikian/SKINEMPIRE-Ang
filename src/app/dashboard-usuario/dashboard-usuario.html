@@ -1,0 +1,26 @@
+<div class="dashboard-container">
+  <h1 class="dashboard-title">📊 Mis Estadísticas de Compras</h1>
+  <p class="usuario-info">¡Hola, <strong>{{ usuarioNom }}</strong>! Aquí puedes ver el resumen de tus compras.</p>
+
+  <div *ngIf="carregant" class="carregant">
+    <p>Cargando tus estadísticas...</p>
+  </div>
+
+  <div *ngIf="error && !carregant" class="error-message">
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="!carregant && !error" class="graficos-container">
+    <!-- Gráfico 1: Ventas por producto -->
+    <div class="grafico-box">
+      <h2>Mis Compras por Producto</h2>
+      <canvas id="chartVentasProducto"></canvas>
+    </div>
+
+    <!-- Gráfico 2: Oferta vs Sin Oferta -->
+    <div class="grafico-box">
+      <h2>Comparativa: Compras en Oferta vs Sin Oferta</h2>
+      <canvas id="chartOfertaVsSinOferta"></canvas>
+    </div>
+  </div>
+</div>

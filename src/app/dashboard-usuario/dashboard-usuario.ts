@@ -7,29 +7,42 @@ import { EstadisticasService, VentaPorDiaProducto, OfertaVsSinOferta } from '../
 Chart.register(...registerables);
 
 @Component({
-  selector: 'app-dashboard-admin',
+  selector: 'app-dashboard-usuario',
   standalone: true,
   imports: [CommonModule, HttpClientModule],
-  templateUrl: './dashboard-admin.html',
-  styleUrl: './dashboard-admin.css'
+  templateUrl: './dashboard-usuario.html',
+  styleUrl: './dashboard-usuario.css'
 })
-export class DashboardAdmin implements OnInit {
+export class DashboardUsuario implements OnInit {
   carregant: boolean = true;
   error: string = '';
-
+  usuarioNom: string = '';
+  
   private chartVentasPorProducto: Chart | null = null;
   private chartOfertaVsSinOferta: Chart | null = null;
 
   constructor(private estadisticasService: EstadisticasService) {}
 
   ngOnInit() {
+    this.usuarioNom = sessionStorage.getItem('currentUserNom') || 'Usuario';
     this.cargarEstadisticas();
   }
 
   cargarEstadisticas() {
-    this.estadisticasService.getEstadisticasAdmin().subscribe({
+    const nom = sessionStorage.getItem('currentUserNom');
+    if (!nom) {
+      this.error = 'Usuario no identificado.';
+      this.carregant = false;
+      return;
+    }
+
+    this.estadisticasService.getEstadisticasUsuario(nom).subscribe({
       next: (data) => {
-        this.crearGraficos(data.ventasPorDiaProducto, data.ofertaVsSinOferta);
+        if (data.ventasPorDiaProducto.length === 0 && data.ofertaVsSinOferta.length === 0) {
+          this.error = 'No hay datos de compras disponibles aún.';
+        } else {
+          this.crearGraficos(data.ventasPorDiaProducto, data.ofertaVsSinOferta);
+        }
         this.carregant = false;
       },
       error: (err) => {
@@ -41,17 +54,19 @@ export class DashboardAdmin implements OnInit {
   }
 
   private crearGraficos(ventasPorProducto: VentaPorDiaProducto[], ofertaVsSinOferta: OfertaVsSinOferta[]) {
-    // Gráfico 1: Ventas por día y producto
-    this.crearGraficoVentasPorProducto(ventasPorProducto);
-
-    // Gráfico 2: Oferta vs Sin Oferta
-    this.crearGraficoOfertaVsSinOferta(ofertaVsSinOferta);
+    if (ventasPorProducto.length > 0) {
+      this.crearGraficoVentasPorProducto(ventasPorProducto);
+    }
+    
+    if (ofertaVsSinOferta.length > 0) {
+      this.crearGraficoOfertaVsSinOferta(ofertaVsSinOferta);
+    }
   }
 
   private crearGraficoVentasPorProducto(datos: VentaPorDiaProducto[]) {
     // Agrupar por producto
     const productosMap = new Map<string, { fechas: string[], cantidades: number[] }>();
-
+    
     datos.forEach(d => {
       if (!productosMap.has(d.producto)) {
         productosMap.set(d.producto, { fechas: [], cantidades: [] });
@@ -100,7 +115,7 @@ export class DashboardAdmin implements OnInit {
           },
           title: {
             display: true,
-            text: 'Cantidad vendida por día y producto',
+            text: 'Tus compras por día y producto',
             color: '#FDEBB7',
             font: { size: 16, weight: 'bold' }
           }
@@ -185,7 +200,7 @@ export class DashboardAdmin implements OnInit {
           },
           title: {
             display: true,
-            text: 'Comparativa: Productos en Oferta vs Sin Oferta',
+            text: 'Tus compras: Productos en Oferta vs Sin Oferta',
             color: '#FDEBB7',
             font: { size: 16, weight: 'bold' }
           }
@@ -194,7 +209,7 @@ export class DashboardAdmin implements OnInit {
           y: {
             ticks: { color: '#E8EBF7' },
             grid: { color: '#3a3a3a' },
-            title: { display: true, text: 'Cantidad Total de Ventas', color: '#E8EBF7' }
+            title: { display: true, text: 'Cantidad Total', color: '#E8EBF7' }
           },
           x: {
             ticks: { color: '#E8EBF7' },
