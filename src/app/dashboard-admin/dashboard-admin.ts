@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
@@ -13,23 +13,31 @@ Chart.register(...registerables);
   templateUrl: './dashboard-admin.html',
   styleUrl: './dashboard-admin.css'
 })
-export class DashboardAdmin implements OnInit {
+export class DashboardAdmin implements OnInit, OnDestroy {
   carregant: boolean = true;
   error: string = '';
-  
+
   private chartVentasPorProducto: Chart | null = null;
   private chartOfertaVsSinOferta: Chart | null = null;
 
   constructor(private estadisticasService: EstadisticasService) {}
 
   ngOnInit() {
+    console.log('Dashboard inicializado');
     this.cargarEstadisticas();
   }
 
   cargarEstadisticas() {
     this.estadisticasService.getEstadisticasAdmin().subscribe({
       next: (data) => {
-        this.crearGraficos(data.ventasPorDiaProducto, data.ofertaVsSinOferta);
+        console.log('Datos recibidos:', data);
+        try {
+          this.crearGraficos(data.ventasPorDiaProducto, data.ofertaVsSinOferta);
+          console.log('Gráficos creados exitosamente');
+        } catch (e) {
+          console.error('Error en crearGraficos:', e);
+          this.error = 'Error al crear los gráficos.';
+        }
         this.carregant = false;
       },
       error: (err) => {
@@ -41,17 +49,25 @@ export class DashboardAdmin implements OnInit {
   }
 
   private crearGraficos(ventasPorProducto: VentaPorDiaProducto[], ofertaVsSinOferta: OfertaVsSinOferta[]) {
-    // Gráfico 1: Ventas por día y producto
-    this.crearGraficoVentasPorProducto(ventasPorProducto);
-    
-    // Gráfico 2: Oferta vs Sin Oferta
-    this.crearGraficoOfertaVsSinOferta(ofertaVsSinOferta);
+    console.log('crearGraficos ejecutándose');
+    console.log('ventasPorProducto:', ventasPorProducto);
+    console.log('ofertaVsSinOferta:', ofertaVsSinOferta);
+
+    if (ventasPorProducto.length > 0) {
+      this.crearGraficoVentasPorProducto(ventasPorProducto);
+    }
+
+    if (ofertaVsSinOferta.length > 0) {
+      this.crearGraficoOfertaVsSinOferta(ofertaVsSinOferta);
+    }
   }
 
   private crearGraficoVentasPorProducto(datos: VentaPorDiaProducto[]) {
+    console.log('Creando gráfico 1, datos:', datos);
+
     // Agrupar por producto
     const productosMap = new Map<string, { fechas: string[], cantidades: number[] }>();
-    
+
     datos.forEach(d => {
       if (!productosMap.has(d.producto)) {
         productosMap.set(d.producto, { fechas: [], cantidades: [] });
@@ -120,16 +136,26 @@ export class DashboardAdmin implements OnInit {
       }
     };
 
-    const ctx = document.getElementById('chartVentasProducto') as HTMLCanvasElement;
-    if (ctx) {
-      if (this.chartVentasPorProducto) {
-        this.chartVentasPorProducto.destroy();
+    // Usar setTimeout para asegurar que el DOM está listo
+    setTimeout(() => {
+      const ctx = document.getElementById('chartVentasProducto') as HTMLCanvasElement;
+      console.log('Canvas 1 encontrado:', ctx);
+
+      if (ctx) {
+        if (this.chartVentasPorProducto) {
+          this.chartVentasPorProducto.destroy();
+        }
+        this.chartVentasPorProducto = new Chart(ctx, config);
+        console.log('Gráfico 1 creado exitosamente');
+      } else {
+        console.error('Canvas 1 NO encontrado');
       }
-      this.chartVentasPorProducto = new Chart(ctx, config);
-    }
+    }, 100);
   }
 
   private crearGraficoOfertaVsSinOferta(datos: OfertaVsSinOferta[]) {
+    console.log('Creando gráfico 2, datos:', datos);
+
     // Separar datos por oferta y sin oferta
     const datosOferta = datos.filter(d => d.oferta === true);
     const datosSinOferta = datos.filter(d => d.oferta === false);
@@ -205,13 +231,21 @@ export class DashboardAdmin implements OnInit {
       }
     };
 
-    const ctx = document.getElementById('chartOfertaVsSinOferta') as HTMLCanvasElement;
-    if (ctx) {
-      if (this.chartOfertaVsSinOferta) {
-        this.chartOfertaVsSinOferta.destroy();
+    // Usar setTimeout para asegurar que el DOM está listo
+    setTimeout(() => {
+      const ctx = document.getElementById('chartOfertaVsSinOferta') as HTMLCanvasElement;
+      console.log('Canvas 2 encontrado:', ctx);
+
+      if (ctx) {
+        if (this.chartOfertaVsSinOferta) {
+          this.chartOfertaVsSinOferta.destroy();
+        }
+        this.chartOfertaVsSinOferta = new Chart(ctx, config);
+        console.log('Gráfico 2 creado exitosamente');
+      } else {
+        console.error('Canvas 2 NO encontrado');
       }
-      this.chartOfertaVsSinOferta = new Chart(ctx, config);
-    }
+    }, 100);
   }
 
   ngOnDestroy() {

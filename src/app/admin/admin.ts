@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { EstadisticasService, VentaPorDiaProducto, OfertaVsSinOferta } from '../serveis/estadisticas.service';
 
@@ -10,20 +10,33 @@ Chart.register(...registerables);
   selector: 'app-dashboard-admin',
   standalone: true,
   imports: [CommonModule, HttpClientModule],
-  templateUrl: './dashboard-admin.html',
-  styleUrl: './dashboard-admin.css'
+  templateUrl: './admin.html',
+  styleUrl: './admin.css'
 })
-export class DashboardAdmin implements OnInit {
+export class Admin implements OnInit {
   carregant: boolean = true;
   error: string = '';
+  historial: any[] = [];
 
   private chartVentasPorProducto: Chart | null = null;
   private chartOfertaVsSinOferta: Chart | null = null;
 
-  constructor(private estadisticasService: EstadisticasService) {}
+  constructor(private estadisticasService: EstadisticasService, private http: HttpClient) {}
 
   ngOnInit() {
+    this.cargarHistorial();
     this.cargarEstadisticas();
+  }
+
+  cargarHistorial() {
+    this.http.get<any[]>('http://localhost:4020/api/historial').subscribe({
+      next: (data) => {
+        this.historial = data;
+      },
+      error: (err) => {
+        console.error('Error cargando historial:', err);
+      }
+    });
   }
 
   cargarEstadisticas() {
@@ -41,15 +54,11 @@ export class DashboardAdmin implements OnInit {
   }
 
   private crearGraficos(ventasPorProducto: VentaPorDiaProducto[], ofertaVsSinOferta: OfertaVsSinOferta[]) {
-    // Gráfico 1: Ventas por día y producto
     this.crearGraficoVentasPorProducto(ventasPorProducto);
-
-    // Gráfico 2: Oferta vs Sin Oferta
     this.crearGraficoOfertaVsSinOferta(ofertaVsSinOferta);
   }
 
   private crearGraficoVentasPorProducto(datos: VentaPorDiaProducto[]) {
-    // Agrupar por producto
     const productosMap = new Map<string, { fechas: string[], cantidades: number[] }>();
 
     datos.forEach(d => {
@@ -61,7 +70,6 @@ export class DashboardAdmin implements OnInit {
       entry.cantidades.push(d.cantidad);
     });
 
-    // Crear datasets para cada producto
     const datasets = Array.from(productosMap.entries()).map(([producto, data], index) => {
       const colores = [
         '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
@@ -78,7 +86,6 @@ export class DashboardAdmin implements OnInit {
       };
     });
 
-    // Obtener todas las fechas únicas ordenadas
     const todasLasFechas = Array.from(new Set(datos.map(d => d.fecha))).sort();
 
     const config: ChartConfiguration = {
@@ -93,10 +100,7 @@ export class DashboardAdmin implements OnInit {
         plugins: {
           legend: {
             position: 'top' as const,
-            labels: {
-              color: '#E8EBF7',
-              font: { size: 12 }
-            }
+            labels: { color: '#E8EBF7', font: { size: 12 } }
           },
           title: {
             display: true,
@@ -122,21 +126,16 @@ export class DashboardAdmin implements OnInit {
 
     const ctx = document.getElementById('chartVentasProducto') as HTMLCanvasElement;
     if (ctx) {
-      if (this.chartVentasPorProducto) {
-        this.chartVentasPorProducto.destroy();
-      }
+      if (this.chartVentasPorProducto) this.chartVentasPorProducto.destroy();
       this.chartVentasPorProducto = new Chart(ctx, config);
     }
   }
 
   private crearGraficoOfertaVsSinOferta(datos: OfertaVsSinOferta[]) {
-    // Separar datos por oferta y sin oferta
     const datosOferta = datos.filter(d => d.oferta === true);
     const datosSinOferta = datos.filter(d => d.oferta === false);
-
     const todasLasFechas = Array.from(new Set(datos.map(d => d.fecha))).sort();
 
-    // Crear arrays de cantidades alineadas con las fechas
     const cantidadesOferta = todasLasFechas.map(fecha => {
       const encontrado = datosOferta.find(d => d.fecha === fecha);
       return encontrado ? encontrado.cantidad : 0;
@@ -178,10 +177,7 @@ export class DashboardAdmin implements OnInit {
         plugins: {
           legend: {
             position: 'top' as const,
-            labels: {
-              color: '#E8EBF7',
-              font: { size: 12 }
-            }
+            labels: { color: '#E8EBF7', font: { size: 12 } }
           },
           title: {
             display: true,
@@ -207,19 +203,13 @@ export class DashboardAdmin implements OnInit {
 
     const ctx = document.getElementById('chartOfertaVsSinOferta') as HTMLCanvasElement;
     if (ctx) {
-      if (this.chartOfertaVsSinOferta) {
-        this.chartOfertaVsSinOferta.destroy();
-      }
+      if (this.chartOfertaVsSinOferta) this.chartOfertaVsSinOferta.destroy();
       this.chartOfertaVsSinOferta = new Chart(ctx, config);
     }
   }
 
   ngOnDestroy() {
-    if (this.chartVentasPorProducto) {
-      this.chartVentasPorProducto.destroy();
-    }
-    if (this.chartOfertaVsSinOferta) {
-      this.chartOfertaVsSinOferta.destroy();
-    }
+    if (this.chartVentasPorProducto) this.chartVentasPorProducto.destroy();
+    if (this.chartOfertaVsSinOferta) this.chartOfertaVsSinOferta.destroy();
   }
 }

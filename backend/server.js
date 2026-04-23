@@ -281,17 +281,17 @@ app.get('/api/historial', async (req, res) => {
   try {
     const historial = await ProductesCompra.findAll({
       include: [
-        { model: Compra, attributes: ['nom_usuari', 'data_compra'] },
-        { model: Producte, attributes: ['nom_producte'] },
+        { model: Compra, attributes: ['nom_usuari', 'data_compra'], required: true },
+        { model: Producte, attributes: ['nom_producte'], required: true },
       ],
-      order: [[Compra, 'data_compra', 'DESC']],
+      order: [[{ model: Compra, as: 'compra' }, 'data_compra', 'DESC']],
     });
     const result = historial.map(h => ({
       id_productes_compra: h.id_productes_compra,
       id_compra: h.id_compra,
-      nom_usuari: h.compra.nom_usuari,
-      data_compra: h.compra.data_compra,
-      nom_producte: h.producte.nom_producte,
+      nom_usuari: h.Compra ? h.Compra.nom_usuari : '',
+      data_compra: h.Compra ? h.Compra.data_compra : '',
+      nom_producte: h.Producte ? h.Producte.nom_producte : '',
       cuantitat: h.cuantitat,
       preu_unitari: h.preu_unitari,
       oferta: h.oferta,
@@ -302,7 +302,6 @@ app.get('/api/historial', async (req, res) => {
     res.status(500).json({ error: 'Error intern del servidor.' });
   }
 });
-
 // --- CARRITO GUARDAT ---
 app.post('/api/carrito/guardar', async (req, res) => {
   const { nom_usuari, productes } = req.body;
@@ -343,7 +342,6 @@ app.delete('/api/carrito/:nom', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
 
 app.get('/api/estadisticas/admin', async (req, res) => {
   try {
@@ -359,7 +357,7 @@ app.get('/api/estadisticas/admin', async (req, res) => {
       ],
       group: [
         require('sequelize').fn('DATE', require('sequelize').col('compra.data_compra')),
-        'id_producte'
+        'ProductesCompra.id_producte'
       ],
       raw: true,
       subQuery: false,
@@ -469,3 +467,6 @@ app.get('/api/estadisticas/usuario/:nom', async (req, res) => {
     res.status(500).json({ error: 'Error interno del servidor.' });
   }
 });
+
+
+app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));

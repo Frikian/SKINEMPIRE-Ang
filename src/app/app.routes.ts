@@ -16,8 +16,8 @@ import { ForgotPassword } from './forgot-password/forgot-password';
 import { ResetPassword } from './reset-password/reset-password';
 import { Admin } from './admin/admin';
 import { adminGuard } from './serveis/admin-guard';
-import { DashboardAdmin } from './admin/dashboard-admin';
-import { DashboardUsuario } from './estadisticas/dashboard-usuario';
+import { DashboardAdmin } from './dashboard-admin/dashboard-admin';
+import { DashboardUsuario } from './dashboard-usuario/dashboard-usuario';
 
 export const routes: Routes = [
   {path: 'carrito', component: Carrito},
