@@ -151,7 +151,7 @@ app.post('/api/reset-password', async (req, res) => {
 
 // --- FIREBASE ---
 var admin = require("firebase-admin");
-var serviceAccount = require("./skinempire-641a8-firebase-adminsdk-fbsvc-5b777357d7.json");
+var serviceAccount = require("./skinempire-641a8-firebase-adminsdk-fbsvc-819343b0e4.json");
 admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
 const db = admin.firestore();
 
