@@ -1,0 +1,22 @@
+.captcha-wrapper { background-color: #1e1d1d; border: 1px solid #9f591d; border-radius: 6px; padding: 12px; margin-bottom: 14px; width: 100%; box-sizing: border-box; }
+.captcha-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.captcha-label { font-size: 0.72rem; color: #b59356; text-transform: uppercase; font-weight: bold; }
+.captcha-refresh { background: none; border: 1px solid #9f591d; color: #b59356; border-radius: 4px; width: 24px; height: 24px; cursor: pointer; }
+.captcha-body { display: flex; flex-direction: column; gap: 8px; }
+.captcha-question { color: #e8ebf7; font-size: 0.85rem; margin: 0; }
+.captcha-num { background-color: #2e2c2c; color: #fdebb7; font-weight: bold; padding: 2px 7px; border-radius: 4px; }
+.captcha-canvas { position: relative; background: #2a2828; border: 1px dashed #9f591d; border-radius: 4px; height: 48px; display: flex; align-items: center; justify-content: center; gap: 4px; overflow: hidden; }
+.captcha-noise { position: absolute; inset: 0; background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(181,147,86,0.05) 2px, rgba(181,147,86,0.05) 4px); }
+.captcha-char { font-family: 'Courier New', monospace; font-weight: bold; z-index: 1; }
+.captcha-sequence { display: flex; gap: 6px; }
+.captcha-seq-num { background-color: #2e2c2c; color: #fdebb7; padding: 4px 9px; border-radius: 4px; border: 1px solid #9f591d; }
+.captcha-colors { display: flex; gap: 8px; }
+.captcha-color-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; }
+.captcha-color-btn.selected { border-color: #fdebb7; }
+.captcha-words { display: flex; gap: 6px; flex-wrap: wrap; }
+.captcha-word-btn { background-color: #2e2c2c; color: #e8ebf7; border: 1px solid #9f591d; border-radius: 4px; padding: 5px 10px; cursor: pointer; }
+.captcha-word-btn.selected { background-color: #804410; color: #fdebb7; }
+.captcha-input { width: 100%; padding: 7px; background-color: #2e2c2c; border: 1px solid #9f591d; color: #e8ebf7; border-radius: 4px; }
+.captcha-feedback { font-size: 0.78rem; padding: 4px; border-radius: 4px; margin-top: 4px; text-align: center; }
+.captcha-ok { color: #7ddb7d; background: rgba(125,219,125,0.1); }
+.captcha-err { color: #e07070; background: rgba(224,112,112,0.1); }

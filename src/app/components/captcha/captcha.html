@@ -1,0 +1,39 @@
+<div class="captcha-wrapper">
+  <div class="captcha-header">
+    <span class="captcha-label">Verificació de seguretat</span>
+    <button type="button" class="captcha-refresh" (click)="refresh()" title="Generar nou CAPTCHA">&#x21bb;</button>
+  </div>
+  <div class="captcha-body" *ngIf="captchaType === 'math'">
+    <p class="captcha-question">Quant és <span class="captcha-num">{{ num1 }}</span> <span class="captcha-op">{{ mathOperator }}</span> <span class="captcha-num">{{ num2 }}</span> <span class="captcha-op"> = ?</span></p>
+    <input class="captcha-input" type="number" [(ngModel)]="userInput" placeholder="Resultat" name="captcha_math" autocomplete="off" (input)="showError = false" />
+  </div>
+  <div class="captcha-body" *ngIf="captchaType === 'text'">
+    <div class="captcha-canvas">
+      <div class="captcha-noise"></div>
+      <span *ngFor="let c of captchaChars" class="captcha-char" [style.transform]="'rotate(' + c.rotate + 'deg)'" [style.color]="c.color" [style.font-size]="c.size + 'px'">{{ c.char }}</span>
+    </div>
+    <input class="captcha-input" type="text" [(ngModel)]="userInput" placeholder="Escriu els caràcters" name="captcha_text" autocomplete="off" maxlength="6" (input)="showError = false" />
+  </div>
+  <div class="captcha-body" *ngIf="captchaType === 'sequence'">
+    <p class="captcha-question">Quin és el següent número?</p>
+    <div class="captcha-sequence">
+      <span *ngFor="let n of sequence" class="captcha-seq-num">{{ n }}</span>
+      <span class="captcha-seq-num captcha-seq-unknown">?</span>
+    </div>
+    <input class="captcha-input" type="number" [(ngModel)]="userInput" placeholder="Número" name="captcha_seq" autocomplete="off" (input)="showError = false" />
+  </div>
+  <div class="captcha-body" *ngIf="captchaType === 'color'">
+    <p class="captcha-question">Selecciona el color: <strong [style.color]="targetColorHex">{{ targetColor }}</strong></p>
+    <div class="captcha-colors">
+      <button type="button" *ngFor="let c of colorOptions" class="captcha-color-btn" [class.selected]="selectedColor === c.name" [style.background-color]="c.hex" (click)="selectColor(c)"></button>
+    </div>
+  </div>
+  <div class="captcha-body" *ngIf="captchaType === 'word'">
+    <p class="captcha-question">Quina paraula <strong>no pertany</strong> al grup?</p>
+    <div class="captcha-words">
+      <button type="button" *ngFor="let w of wordOptions" class="captcha-word-btn" [class.selected]="selectedWord === w" (click)="selectWord(w)">{{ w }}</button>
+    </div>
+  </div>
+  <div class="captcha-feedback captcha-ok" *ngIf="isValid"><span>&#10003; Verificació correcta</span></div>
+  <div class="captcha-feedback captcha-err" *ngIf="showError"><span>&#10007; Incorrecte. Generant nou...</span></div>
+</div>

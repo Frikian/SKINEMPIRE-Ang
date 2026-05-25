@@ -460,3 +460,10 @@ body {
     width: 90%;
   }
 }
+.captcha-required-hint {
+  margin-top: -8px;
+  margin-bottom: 10px;
+  color: #e07070;
+  font-size: 0.82rem;
+  text-align: left;
+}
