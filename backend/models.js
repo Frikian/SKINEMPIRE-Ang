@@ -1,8 +1,14 @@
 const { Sequelize, DataTypes } = require('sequelize');
+const fs = require('fs');
+const path = require('path');
 
-const sequelize = new Sequelize('skinempire', 'root', 'patata', {
-  host: 'localhost',
-  dialect: 'mysql',
+// Cargar configuración (Requisito 3.1)
+const configPath = path.join(__dirname, 'config.json');
+const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+
+const sequelize = new Sequelize(config.db_sql.database, config.db_sql.username, config.db_sql.password, {
+  host: config.db_sql.host,
+  dialect: config.db_sql.dialect,
   logging: false,
 });
 

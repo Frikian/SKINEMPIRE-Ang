@@ -1,3 +1,11 @@
+const fs = require('fs');
+const path = require('path');
+
+// Cargar config y asegurar carpetas (Requisito 3.1 y 3.3)
+const config = JSON.parse(fs.readFileSync(path.join(__dirname, 'config.json'), 'utf8'));
+const consultasDir = path.join(__dirname, 'consultas');
+if (!fs.existsSync(consultasDir)) fs.mkdirSync(consultasDir);
+
 const express = require('express');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
@@ -5,7 +13,7 @@ const app = express();
 const { Producte, Compra, ProductesCompra, CarritoGuardat } = require('./models');
 
 app.use(cors());
-app.use(express.json());
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
 const PORT = 4020;
 
 app.post('/api/ia-chat', async (req, res) => {
@@ -52,10 +60,12 @@ app.post('/api/ia-chat', async (req, res) => {
 });
 
 
-
+const EMAIL_USER = config.email.user;
+const EMAIL_PASS = config.email.pass;
+/*
 const EMAIL_USER = 'skinempire67@gmail.com';
 const EMAIL_PASS = 'qtcp gakr uwlt mpsg';
-
+*/
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: { user: EMAIL_USER, pass: EMAIL_PASS },
@@ -63,9 +73,10 @@ const transporter = nodemailer.createTransport({
 
 app.post('/api/contacto', async (req, res) => {
   const { nombre, email, motivo, mensaje } = req.body;
-  if (!nombre || !email || !motivo || !mensaje) {
-    return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
-  }
+  const fileName = `consulta_${Date.now()}_${nombre.replace(/\s+/g, '_')}.txt`;
+  const fileContent = `Nombre: ${nombre}\nEmail: ${email}\nMotivo: ${motivo}\nMensaje: ${mensaje}\nFecha: ${new Date().toLocaleString()}`;
+  fs.writeFileSync(path.join(consultasDir, fileName), fileContent);
+
   const motivoTexto = { '1': 'Soporte', '2': 'Sugerencias', '3': 'Otro' }[motivo] || motivo;
   const mailOptions = {
     from: `"SkinEmpire" <${EMAIL_USER}>`,

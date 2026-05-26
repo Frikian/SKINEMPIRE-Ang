@@ -1,0 +1,13 @@
+{
+  "db_sql": {
+    "database": "skinempire",
+    "username": "root",
+    "password": "patata",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "email": {
+    "user": "skinempire67@gmail.com",
+    "pass": "qtcp gakr uwlt mpsg"
+  }
+}
