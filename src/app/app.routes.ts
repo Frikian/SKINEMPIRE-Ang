@@ -18,6 +18,7 @@ import { Admin } from './admin/admin';
 import { adminGuard } from './serveis/admin-guard';
 import { DashboardAdmin } from './dashboard-admin/dashboard-admin';
 import { DashboardUsuario } from './dashboard-usuario/dashboard-usuario';
+import { ChatIa } from './chat-ia/chat-ia';
 
 export const routes: Routes = [
   {path: 'carrito', component: Carrito},
@@ -37,6 +38,7 @@ export const routes: Routes = [
   { path: 'forgot-password', component: ForgotPassword },
   { path: 'reset-password', component: ResetPassword },
   { path: 'admin', component: Admin, canActivate: [adminGuard] },
+  { path: 'chat-ia', component: ChatIa },
   {
     path: 'admin/estadisticas',
     component: DashboardAdmin,

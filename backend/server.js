@@ -8,6 +8,51 @@ app.use(cors());
 app.use(express.json());
 const PORT = 4020;
 
+app.post('/api/ia-chat', async (req, res) => {
+  const { missatge } = req.body;
+
+  if (!missatge) {
+    return res.status(400).json({ error: 'Missatge obligatori.' });
+  }
+
+  try {
+    const resposta = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: 'llama-3.1-8b-instant',
+        messages: [
+          {
+            role: 'system',
+            content: 'Ets un bot de IA senzill. Respon de forma clara, curta i útil.'
+          },
+          {
+            role: 'user',
+            content: missatge
+          }
+        ]
+      })
+    });
+
+    const dades = await resposta.json();
+
+    if (!resposta.ok) {
+      return res.status(500).json({ error: 'Error amb Groq.' });
+    }
+
+    res.json({
+      resposta: dades.choices[0].message.content
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Error intern del servidor.' });
+  }
+});
+
+
+
 const EMAIL_USER = 'skinempire67@gmail.com';
 const EMAIL_PASS = 'qtcp gakr uwlt mpsg';
 

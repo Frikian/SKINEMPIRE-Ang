@@ -1,0 +1,32 @@
+<div class="chat_page">
+  <div class="chat_box">
+    <h2>Bot IA</h2>
+
+    <div class="missatges">
+      @for (m of conversa; track m.text) {
+        <div class="missatge" [class.usuari]="m.autor === 'usuari'" [class.bot]="m.autor === 'bot'">
+          <p>{{ m.text }}</p>
+        </div>
+      }
+
+      @if (carregant) {
+        <div class="missatge bot">
+          <p>Escrivint...</p>
+        </div>
+      }
+    </div>
+
+    <form class="formulari" (ngSubmit)="enviarMissatge()">
+      <input
+        type="text"
+        name="missatge"
+        [(ngModel)]="missatge"
+        placeholder="Escriu el teu missatge..."
+      >
+
+      <button type="submit" [disabled]="carregant">
+        Enviar
+      </button>
+    </form>
+  </div>
+</div>

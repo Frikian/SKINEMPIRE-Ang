@@ -1,0 +1,88 @@
+.chat_page {
+  min-height: 75vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3vw;
+  background: #2e2a27;
+}
+
+.chat_box {
+  width: 55vw;
+  max-width: 850px;
+  background: #3f3a35;
+  border: 1px solid rgba(181, 147, 86, 0.5);
+  border-radius: 12px;
+  padding: 2vw;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.45);
+}
+
+.chat_box h2 {
+  color: #fdebb7;
+  margin-bottom: 1.5vw;
+  text-align: center;
+}
+
+.missatges {
+  height: 400px;
+  overflow-y: auto;
+  background: #252321;
+  padding: 1vw;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8vw;
+}
+
+.missatge {
+  max-width: 75%;
+  padding: 0.8vw 1vw;
+  border-radius: 10px;
+  color: white;
+}
+
+.missatge p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.usuari {
+  align-self: flex-end;
+  background: #9f591d;
+}
+
+.bot {
+  align-self: flex-start;
+  background: #4a4744;
+  border: 1px solid rgba(181, 147, 86, 0.35);
+}
+
+.formulari {
+  display: flex;
+  gap: 1vw;
+  margin-top: 1vw;
+}
+
+.formulari input {
+  flex: 1;
+  padding: 0.8vw;
+  border-radius: 8px;
+  border: 1px solid rgba(181, 147, 86, 0.5);
+  background: #252321;
+  color: white;
+}
+
+.formulari button {
+  padding: 0.8vw 1.5vw;
+  border: none;
+  border-radius: 8px;
+  background: #b59356;
+  color: #252321;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.formulari button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
